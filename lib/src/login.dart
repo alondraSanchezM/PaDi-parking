@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'singup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,22 +11,55 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  Widget _entryField(String title, {bool isPassword = false}) {
+  
+  Widget _emailField() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            'CORREO ELECTRÓNICO',
+            style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 10,
+                color: Color(0x99000000)),
           ),
           SizedBox(
             height: 10,
           ),
           TextField(
-              obscureText: isPassword,
+              obscureText: false,
               decoration: InputDecoration(
+                  hintText: 'tunombre@gmail.com',
+                  border: InputBorder.none,
+                  fillColor: Color(0xfff3f3f4),
+                  filled: true))
+        ],
+      ),
+    );
+  }
+
+  Widget _passwordField() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'CONTRASEÑA',
+            style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 10,
+                color: Color(0x99000000)),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                  hintText: '********',
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
                   filled: true))
@@ -38,66 +70,41 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _submitButton() {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: 149,
       padding: EdgeInsets.symmetric(vertical: 15),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.shade200,
-                offset: Offset(2, 4),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xfffbb448), Color(0xfff7892b)])),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        color: Color(0xff91C499),
+      ),
       child: Text(
-        'Login',
-        style: TextStyle(fontSize: 20, color: Colors.white),
+        'INICIAR SESIÓN',
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.white,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
 
-  Widget _divider() {
+  Widget _labelOr() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        children: <Widget>[
-          SizedBox(
-            width: 20,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(
-                thickness: 1,
-              ),
+        margin: EdgeInsets.only(top: 15, bottom: 10),
+        child: Column(
+          children: <Widget>[
+            Text(
+              'o con tu correo electrónico',
+              style: TextStyle(color: Color(0xd9808F85), fontSize: 12),
             ),
-          ),
-          Text('or'),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(
-                thickness: 1,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 
   Widget _facebookButton() {
     return Container(
       height: 50,
-      margin: EdgeInsets.symmetric(vertical: 20),
+      margin: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
@@ -130,11 +137,11 @@ class _LoginPageState extends State<LoginPage> {
                     topRight: Radius.circular(5)),
               ),
               alignment: Alignment.center,
-              child: Text('Log in with Facebook',
+              child: Text('INICIA SESIÓN CON FACEBOOK',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400)),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700)),
             ),
           ),
         ],
@@ -156,16 +163,16 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Don\'t have an account ?',
+              '¿Aún no tienes una cuenta?',
               style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
             ),
             SizedBox(
               width: 10,
             ),
             Text(
-              'Register',
+              'Regístrate',
               style: TextStyle(
-                  color: Color(0xfff79c4f),
+                  color: Color(0xffCFD11A),
                   fontSize: 13,
                   fontWeight: FontWeight.w600),
             ),
@@ -175,72 +182,64 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _title() {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-          text: 'Iniciar sesión',
-          style: GoogleFonts.portLligatSans(
-            textStyle: Theme.of(context).textTheme.headline4,
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
-            //color: Color(0xffe46b10),
-          )),
-    );
-  }
-
-  Widget _emailPasswordWidget() {
-    return Column(
-      children: <Widget>[
-        _entryField("Email id"),
-        _entryField("Password", isPassword: true),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+        appBar: AppBar(
+          title: Text('Iniciar sesión'),
+          backgroundColor: Color(0xff0C2431),
+        ),
+        drawer: Drawer(
+            child: new ListView(
+          children: <Widget>[
+            Text('Primero elemento!'),
+            //Menu deisy
+          ],
+        )),
         body: Container(
-      height: height,
-      child: Stack(
-        children: <Widget>[
-         // Positioned(
-             // top: -height * .15,
-             // right: -MediaQuery.of(context).size.width * .4,
-              //child: BezierContainer()   --- imagen posicionada fija 
-            //  ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: height * .2),
-                  _title(),
-                  SizedBox(height: 50),
-                  _emailPasswordWidget(),
-                  SizedBox(height: 20),
-                  _submitButton(),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    alignment: Alignment.centerRight,
-                    child: Text('Forgot Password ?',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500)),
-                  ),
-                  _divider(),
-                  _facebookButton(),
-                  SizedBox(height: height * .055),
-                  _createAccountLabel(),
-                ],
+          height: height,
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(
+                child: Image.asset(
+                  "assets/low-shape.png",
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.bottomLeft,
+                ),
               ),
-            ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: 24),
+                      _facebookButton(),
+                      _labelOr(),
+                      SizedBox(height: 24),
+                      _emailField(),
+                      _passwordField(),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        alignment: Alignment.centerRight,
+                        child: Text('¿Olvidaste la contraseña?',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Color(0xff0C2431),
+                            )),
+                      ),
+                      SizedBox(height: 24),
+                      _createAccountLabel(),
+                      _submitButton(),
+                      SizedBox(height: 24),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 }

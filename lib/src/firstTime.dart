@@ -17,7 +17,7 @@ class _FirstTimeState extends State<FirstTime> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+            context, MaterialPageRoute(builder: (context) => SignUpPage()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -27,7 +27,7 @@ class _FirstTimeState extends State<FirstTime> {
             borderRadius: BorderRadius.all(Radius.circular(5)),
             color: Color(0xffCFD11A)),
         child: Text(
-          'INICIAR SESIÓN',
+          'REGÍSTRATE GRATIS',
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.white),
         ),
       ),
@@ -38,7 +38,7 @@ class _FirstTimeState extends State<FirstTime> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignUpPage()));
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -48,11 +48,12 @@ class _FirstTimeState extends State<FirstTime> {
             borderRadius: BorderRadius.all(Radius.circular(5)),
             color: Colors.white),
         child: Text(
-          'REGÍSTRATE GRATIS',
+          'INICIAR SESIÓN',
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Color(0xffCFD11A)),
         ),
       ),
     );
+    
   }
 
   Widget _label() {
