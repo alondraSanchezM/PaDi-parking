@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="alondrasanchez.padi_parking">
    <application
-        android:label="padi_parking"
+        android:label="PaDi"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
