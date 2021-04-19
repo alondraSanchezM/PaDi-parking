@@ -11,7 +11,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  
   Widget _emailField() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -182,6 +181,68 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  _dialogRecoverPassword() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Recuperar contraseña',
+            style: TextStyle(
+              color: Color(0xe6000000),
+              fontSize: 16,
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Ingresa tu correo electrónico, te enviaremos un enlace para recuperar tu cuenta.',
+                  style: TextStyle(color: Color(0x99000000)),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                TextField(
+                    obscureText: false,
+                    decoration: InputDecoration(
+                        hintText: 'tucorreo@email.com',
+                        border: InputBorder.none,
+                        fillColor: Color(0xfff3f3f4),
+                        filled: true))
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'CANCELAR',
+                style: TextStyle(
+                  color: Color(0xff0C2431),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
+            TextButton(
+              child: Text(
+                'ENVIAR',
+                style: TextStyle(
+                  color: Color(0xff0C2431),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -222,14 +283,19 @@ class _LoginPageState extends State<LoginPage> {
                       _emailField(),
                       _passwordField(),
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        alignment: Alignment.centerRight,
-                        child: Text('¿Olvidaste la contraseña?',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Color(0xff0C2431),
-                            )),
-                      ),
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          alignment: Alignment.centerRight,
+                          child: InkWell(
+                            child: Text('¿Olvidaste la contraseña?',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xff0C2431),
+                                )),
+                            onTap: () {
+                              Navigator.of(context)
+                                  .restorablePush(_dialogRecoverPassword());
+                            },
+                          )),
                       SizedBox(height: 24),
                       _createAccountLabel(),
                       SizedBox(height: height * .14),
