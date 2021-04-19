@@ -25,3 +25,5 @@ flutter:
   assets:
     - assets/parking.png
     - assets/low-shape.png
+    - assets/high-shape.png
+    - assets/PaDi-logo.png

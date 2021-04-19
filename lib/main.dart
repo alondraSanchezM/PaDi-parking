@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'src/firstTime.dart';
-
+import 'dart:async';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -8,7 +8,45 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'PaDi',
-      home: FirstTime(),
+       home: SplashScreen(),
     );
   }
 }
+
+
+class SplashScreen extends StatefulWidget {
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+Color _color = Color.fromARGB(255, 12, 36, 49);
+  @override
+  void initState() {
+    Future.delayed(
+      Duration(seconds: 3),
+        () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => FirstTime()
+            ),
+        );
+        }
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      backgroundColor: _color,
+      body: Center(
+        child: Image.asset("assets/PaDi-logo.png"),
+      ),
+    );
+  }
+
+
+
+}
+
