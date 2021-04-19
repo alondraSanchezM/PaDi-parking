@@ -232,6 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(height: 24),
                       _createAccountLabel(),
+                      SizedBox(height: height * .14),
                       _submitButton(),
                       SizedBox(height: 24),
                     ],
