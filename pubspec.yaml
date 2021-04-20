@@ -30,3 +30,7 @@ flutter:
     - assets/logo.png
     - assets/qr.png
     - assets/alfiler.png
+    - assets/visa.png
+    - assets/paypal.png
+    - assets/master.png
+    

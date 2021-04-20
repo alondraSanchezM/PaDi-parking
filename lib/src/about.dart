@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Visit.dart';
+import 'status.dart';
 class AboutPage extends StatefulWidget {
   AboutPage({Key key, this.title}) : super(key: key);
 

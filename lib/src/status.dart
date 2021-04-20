@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'about.dart';
+import 'endVisit.dart';
+
 class VisitPage extends StatefulWidget {
   VisitPage({Key key, this.title}) : super(key: key);
 
@@ -10,34 +12,28 @@ class VisitPage extends StatefulWidget {
 }
 
 class _VisitPageState extends State<VisitPage> {
-
   Widget _labelTittle() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
         'Galerías Serdán',
-        style: TextStyle(
-          color: Colors.black87,
-          fontSize: 24
-        ),
+        style: TextStyle(color: Colors.black87, fontSize: 24),
       ),
     );
   }
 
   Widget _labelAlfiler() {
     return Container(
-      margin: EdgeInsets.only( left: 10),
-      child: Image.asset("assets/alfiler.png"
-      ),
+      margin: EdgeInsets.only(left: 10),
+      child: Image.asset("assets/alfiler.png"),
     );
   }
-  
+
   Widget _labelHoraE() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
         'Hora de entrada',
-        
         textAlign: TextAlign.right,
         style: TextStyle(
           color: Colors.black87,
@@ -46,12 +42,12 @@ class _VisitPageState extends State<VisitPage> {
       ),
     );
   }
+
   Widget _labelHora() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
         '9:23',
-        
         textAlign: TextAlign.right,
         style: TextStyle(
           fontWeight: FontWeight.w100,
@@ -62,12 +58,11 @@ class _VisitPageState extends State<VisitPage> {
     );
   }
 
-
   Widget _labelLine() {
     return Container(
       child: Text(
         ' ________________________________________________ ',
-                textAlign: TextAlign.center,
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.black12,
           fontSize: 16,
@@ -81,7 +76,7 @@ class _VisitPageState extends State<VisitPage> {
       margin: EdgeInsets.only(bottom: 10),
       child: Text(
         ' _____________________________ ',
-                textAlign: TextAlign.center,
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.black12,
           fontSize: 16,
@@ -90,7 +85,7 @@ class _VisitPageState extends State<VisitPage> {
     );
   }
 
-    Widget _labelDatosAparcamiento() {
+  Widget _labelDatosAparcamiento() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -103,8 +98,8 @@ class _VisitPageState extends State<VisitPage> {
       ),
     );
   }
-  
-    Widget _labelNivel() {
+
+  Widget _labelNivel() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -116,8 +111,8 @@ class _VisitPageState extends State<VisitPage> {
       ),
     );
   }
-  
-    Widget _labelSector() {
+
+  Widget _labelSector() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -129,8 +124,8 @@ class _VisitPageState extends State<VisitPage> {
       ),
     );
   }
-  
-    Widget _labelCajon() {
+
+  Widget _labelCajon() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -142,26 +137,33 @@ class _VisitPageState extends State<VisitPage> {
       ),
     );
   }
-  
+
   Widget _submitButton() {
-    return Container(
-      width: 149,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        color: Color(0xff91C499),
-      ),
-      child: Text(
-        'REGISTRAR SALIDA',
-        style: TextStyle(
-          fontSize: 14,
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => EndVisitPage()));
+      },
+      child: Container(
+        width: 149,
+        padding: EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: Color(0xff91C499),
+        ),
+        child: Text(
+          'REGISTRAR SALIDA',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -221,35 +223,31 @@ class _VisitPageState extends State<VisitPage> {
                   children: <Widget>[
                     SizedBox(height: 24),
                     Container(
-                     child:  Align(
-                    alignment: Alignment.topLeft,
-                      child:  _labelTittle(),
-                     ),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: _labelTittle(),
+                      ),
                     ),
-                   
                     _labelLine(),
-                     SizedBox(height: 24),
+                    SizedBox(height: 24),
                     Container(
-                     child:  Align(
-                    alignment: Alignment.topRight,
-                      child:
-                        
-                    _labelHoraE(),
-                    
-                     ),
-                    ),Container(
-                     child:  Align(
-                    alignment: Alignment.topRight,
-                      child: 
-                    _labelHora(),
-                     ),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: _labelHoraE(),
+                      ),
                     ),
-                     SizedBox(height: 24),
                     Container(
-                     child:  Align(
-                    alignment: Alignment.topLeft,
-                      child: _labelAlfiler(),
-                     ),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: _labelHora(),
+                      ),
+                    ),
+                    SizedBox(height: 24),
+                    Container(
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: _labelAlfiler(),
+                      ),
                     ),
                     SizedBox(height: 36),
                     _labelDatosAparcamiento(),
