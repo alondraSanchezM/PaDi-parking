@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:padi_parking/src/welcome.dart';
-import 'welcome.dart';
 
 class AboutPage extends StatefulWidget {
   AboutPage({Key key, this.title}) : super(key: key);
@@ -13,244 +11,124 @@ class AboutPage extends StatefulWidget {
 
 class _AboutPageState extends State<AboutPage> {
 
-  Widget _emailField() {
+  Widget _labelTittle() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'CORREO ELECTRÓNICO',
-            style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 10,
-                color: Color(0x99000000)),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          TextField(
-              obscureText: false,
-              decoration: InputDecoration(
-                  hintText: 'tunombre@gmail.com',
-                  border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
-                  filled: true))
-        ],
-      ),
-    );
-  }
-
-  Widget _passwordField() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'CONTRASEÑA',
-            style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 10,
-                color: Color(0x99000000)),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                  hintText: '********',
-                  border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
-                  filled: true))
-        ],
-      ),
-    );
-  }
-
-  Widget _submitButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => WelcomePage()));
-      },
-      child: Container(
-        width: 149,
-        padding: EdgeInsets.symmetric(vertical: 15),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          color: Color(0xff91C499),
-        ),
-        child: Text(
-          'INICIAR SESIÓN',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.white,
-            fontWeight: FontWeight.w700,
-          ),
+      margin: EdgeInsets.only(top: 10),
+      child: Text(
+        'PaDi',
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 48,
         ),
       ),
     );
   }
 
-  Widget _labelOr() {
+  Widget _labelLogo() {
     return Container(
-        margin: EdgeInsets.only(top: 15, bottom: 10),
-        child: Column(
-          children: <Widget>[
-            Text(
-              'o con tu correo electrónico',
-              style: TextStyle(color: Color(0xd9808F85), fontSize: 12),
-            ),
-          ],
-        ));
-  }
-
-  Widget _facebookButton() {
-    return Container(
-      height: 50,
-      margin: EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xff1959a9),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(5),
-                    topLeft: Radius.circular(5)),
-              ),
-              alignment: Alignment.center,
-              child: Text('f',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w400)),
-            ),
-          ),
-          Expanded(
-            flex: 5,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xff2872ba),
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(5),
-                    topRight: Radius.circular(5)),
-              ),
-              alignment: Alignment.center,
-              child: Text('INICIA SESIÓN CON FACEBOOK',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700)),
-            ),
-          ),
-        ],
-      ),
+      margin: EdgeInsets.only(top: 10),
+      child: Image.asset("assets/logo.png"),
     );
   }
-
-  Widget _createAccountLabel() {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => WelcomePage()));
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 20),
-        padding: EdgeInsets.all(15),
-        alignment: Alignment.bottomCenter,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '¿Aún no tienes una cuenta?',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              'Regístrate',
-              style: TextStyle(
-                  color: Color(0xffCFD11A),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600),
-            ),
-          ],
+  
+  Widget _labelVersion() {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Text(
+        'Versión  1.12',
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 16,
         ),
       ),
     );
   }
 
-  _dialogRecoverPassword() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            'Recuperar contraseña',
-            style: TextStyle(
-              color: Color(0xe6000000),
-              fontSize: 16,
-            ),
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  'Ingresa tu correo electrónico, te enviaremos un enlace para recuperar tu cuenta.',
-                  style: TextStyle(color: Color(0x99000000)),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                TextField(
-                    obscureText: false,
-                    decoration: InputDecoration(
-                        hintText: 'tucorreo@email.com',
-                        border: InputBorder.none,
-                        fillColor: Color(0xfff3f3f4),
-                        filled: true))
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                'CANCELAR',
-                style: TextStyle(
-                  color: Color(0xff0C2431),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              onPressed: () => Navigator.pop(context),
-            ),
-            TextButton(
-              child: Text(
-                'ENVIAR',
-                style: TextStyle(
-                  color: Color(0xff0C2431),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-        );
-      },
+
+  Widget _labelLine() {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Text(
+        ' _____________________________________ ',
+                textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.black12,
+          fontSize: 16,
+        ),
+      ),
     );
   }
 
+    Widget _labelDisenado() {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Text(
+        'Diseñado por:',
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 16,
+        ),
+      ),
+    );
+  }
+  
+    Widget _labelDisenadoP() {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Text(
+        'Alondra Sánchez',
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 20,
+          fontWeight: FontWeight.bold
+        ),
+      ),
+    );
+  }
+
+
+    Widget _labelProgramado() {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Text(
+        'Programado por:',
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 16,
+        ),
+      ),
+    );
+  }
+  
+    Widget _labelProgramadoP() {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Text(
+        'Alondra Sánchez \nDeisy D. Gonzalez \n Mark A. López',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 20,
+          fontWeight: FontWeight.bold
+        ),
+      ),
+    );
+  }
+
+   Widget _labelDerechos() {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Text(
+        'Copyright © 2021 \n Todos los derechos reservados',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 16,
+        ),
+      ),
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -290,37 +168,25 @@ class _AboutPageState extends State<AboutPage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: 62),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(height: 24),
-                    _facebookButton(),
-                    _labelOr(),
-                    SizedBox(height: 24),
-                    _emailField(),
-                    _passwordField(),
-                    Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        alignment: Alignment.centerRight,
-                        child: InkWell(
-                          child: Text('¿Olvidaste la contraseña?',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color(0xff0C2431),
-                              )),
-                          onTap: () {
-                            Navigator.of(context)
-                                .restorablePush(_dialogRecoverPassword());
-                          },
-                        )),
-                    SizedBox(height: 24),
-                    _createAccountLabel(),
-                    SizedBox(height: height * .14),
-                    _submitButton(),
-                    SizedBox(height: 24),
+                    _labelTittle(),
+                    _labelLogo(),
+                    _labelVersion(),
+                    SizedBox(height: 14),
+                    _labelLine(),
+                    _labelDisenado(),
+                    _labelDisenadoP(),
+                    _labelProgramado(),
+                    _labelProgramadoP(),
+                    _labelLine(),
+                    SizedBox(height: 14),
+                    _labelDerechos(),
                   ],
                 ),
               ),
