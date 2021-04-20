@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'about.dart';
 
 class WelcomePage extends StatefulWidget {
   WelcomePage({Key key, this.title}) : super(key: key);
@@ -11,7 +12,6 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   Widget _qrScan() {
-    // TODO: implement build
     return Center(
       child: Image.asset(
         "assets/qr.png",
@@ -21,7 +21,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Widget _labelWelcome() {
     return Container(
-        margin: EdgeInsets.only( top: 70),
+        margin: EdgeInsets.only(top: 70),
         child: Column(
           children: <Widget>[
             Text(
@@ -46,7 +46,19 @@ class _WelcomePageState extends State<WelcomePage> {
       drawer: Drawer(
           child: new ListView(
         children: <Widget>[
-          Text('Primero elemento!'),
+          Container(
+              child: InkWell(
+            child: Text('Acerca de',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Color(0xff0C2431),
+                )),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AboutPage()));
+            },
+          )),
+
           //Menu deisy
         ],
       )),

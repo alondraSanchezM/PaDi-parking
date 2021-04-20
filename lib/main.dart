@@ -20,8 +20,10 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 Color _color = Color.fromARGB(255, 12, 36, 49);
+  
   @override
   void initState() {
+    super.initState();
     Future.delayed(
       Duration(seconds: 3),
         () {
@@ -37,7 +39,7 @@ Color _color = Color.fromARGB(255, 12, 36, 49);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+   
     return Scaffold(
       backgroundColor: _color,
       body: Center(
