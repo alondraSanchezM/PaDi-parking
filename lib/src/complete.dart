@@ -28,7 +28,19 @@ class _CompleteTransactionState extends State<CompleteTransaction> {
           crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset("assets/androidLoading.gif"),
+             SizedBox(
+                child: CircularProgressIndicator( 
+              valueColor:
+               AlwaysStoppedAnimation( 
+                Colors.white), 
+                strokeWidth: 10,
+                ),
+                height: 100.0,
+                width: 100.0,
+              ),
+            
+            
+           
            Text(
         'Transacción\ncompleta',
         textAlign: TextAlign.center,
