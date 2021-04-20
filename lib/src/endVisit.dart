@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'about.dart';
 import 'status.dart';
 import 'addCard.dart';
+import 'complete.dart';
 
 class EndVisitPage extends StatefulWidget {
   EndVisitPage({Key key, this.title}) : super(key: key);
@@ -155,20 +156,26 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   Widget _submitButton() {
-    return Container(
-      width: 149,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        color: Color(0xff91C499),
-      ),
-      child: Text(
-        'CONTINUAR',
-        style: TextStyle(
-          fontSize: 14,
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => CompleteTransaction()));
+      },
+      child: Container(
+        width: 149,
+        padding: EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: Color(0xff91C499),
+        ),
+        child: Text(
+          'CONTINUAR',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );
@@ -253,10 +260,9 @@ class _EndVisitPageState extends State<EndVisitPage> {
                     _labelMetodos(),
                     SizedBox(height: 16),
                     _labelLineB2(),
-                    
                     SizedBox(height: 24),
                     Container(
-                      padding: EdgeInsets.symmetric( horizontal: 80),
+                      padding: EdgeInsets.symmetric(horizontal: 80),
                       alignment: Alignment.bottomCenter,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -276,13 +282,11 @@ class _EndVisitPageState extends State<EndVisitPage> {
                         ],
                       ),
                     ),
-                    
                     SizedBox(height: 24),
                     _labelLineB2(),
-                    
                     SizedBox(height: 24),
                     Container(
-                      padding: EdgeInsets.symmetric( horizontal: 80),
+                      padding: EdgeInsets.symmetric(horizontal: 80),
                       alignment: Alignment.bottomCenter,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -302,13 +306,11 @@ class _EndVisitPageState extends State<EndVisitPage> {
                         ],
                       ),
                     ),
-                    
                     SizedBox(height: 24),
                     _labelLineB2(),
-                    
                     SizedBox(height: 24),
                     Container(
-                      padding: EdgeInsets.symmetric( horizontal: 100),
+                      padding: EdgeInsets.symmetric(horizontal: 100),
                       alignment: Alignment.bottomCenter,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -328,7 +330,6 @@ class _EndVisitPageState extends State<EndVisitPage> {
                         ],
                       ),
                     ),
-                    
                     SizedBox(height: 24),
                     _labelLineB2(),
                     SizedBox(height: 24),

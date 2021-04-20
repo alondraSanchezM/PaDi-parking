@@ -33,4 +33,5 @@ flutter:
     - assets/visa.png
     - assets/paypal.png
     - assets/master.png
+    - assets/androidLoading.gif
     
