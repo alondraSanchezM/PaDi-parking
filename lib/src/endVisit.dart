@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'about.dart';
-import 'status.dart';
-import 'addCard.dart';
+import 'package:padi_parking/src/payment.dart';
+import 'drawer.dart';
 import 'complete.dart';
 
 class EndVisitPage extends StatefulWidget {
@@ -143,7 +142,9 @@ class _EndVisitPageState extends State<EndVisitPage> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AddCard()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => PaymentPage())); //AddCard()));
       },
       child: Text(
         'Añadir método de pago',
@@ -158,8 +159,8 @@ class _EndVisitPageState extends State<EndVisitPage> {
   Widget _submitButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => CompleteTransaction()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => CompleteTransaction()));
       },
       child: Container(
         width: 149,
@@ -189,37 +190,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
         title: Text('Termina tu visita'),
         backgroundColor: Color(0xff0C2431),
       ),
-      drawer: Drawer(
-          child: new ListView(
-        children: <Widget>[
-          Container(
-              child: InkWell(
-            child: Text('Visita Actual',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xff0C2431),
-                )),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => VisitPage()));
-            },
-          )),
-          Container(
-              child: InkWell(
-            child: Text('Acerca de',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xff0C2431),
-                )),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutPage()));
-            },
-          )),
-
-          //Menu deisy
-        ],
-      )),
+      drawer: MenuLateral(),
       body: Container(
         height: height,
         child: Stack(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'about.dart';
-import 'status.dart';
+import 'drawer.dart';
+
 class WelcomePage extends StatefulWidget {
   WelcomePage({Key key, this.title}) : super(key: key);
 
@@ -43,38 +43,7 @@ class _WelcomePageState extends State<WelcomePage> {
         title: Text('Escanea tu código'),
         backgroundColor: Color(0xff0C2431),
       ),
-      drawer: Drawer(
-          child: new ListView(
-        children: <Widget>[
-          Container(
-              child: InkWell(
-            child: Text('Visita Actual',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xff0C2431),
-                )),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => VisitPage()));
-            },
-          )),
-          
-          Container(
-              child: InkWell(
-            child: Text('Acerca de',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xff0C2431),
-                )),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutPage()));
-            },
-          )),
-
-          //Menu deisy
-        ],
-      )),
+      drawer: MenuLateral(),
       body: Container(
         height: height,
         child: Stack(

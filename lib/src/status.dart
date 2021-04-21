@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'about.dart';
+import 'drawer.dart';
 import 'endVisit.dart';
 
 class VisitPage extends StatefulWidget {
@@ -172,37 +172,7 @@ class _VisitPageState extends State<VisitPage> {
         title: Text('Estado de Visita'),
         backgroundColor: Color(0xff0C2431),
       ),
-      drawer: Drawer(
-          child: new ListView(
-        children: <Widget>[
-          Container(
-              child: InkWell(
-            child: Text('Visita Actual',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xff0C2431),
-                )),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => VisitPage()));
-            },
-          )),
-          Container(
-              child: InkWell(
-            child: Text('Acerca de',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xff0C2431),
-                )),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutPage()));
-            },
-          )),
-
-          //Menu deisy
-        ],
-      )),
+      drawer: MenuLateral(),
       body: Container(
         height: height,
         child: Stack(

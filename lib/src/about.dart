@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'status.dart';
+import 'drawer.dart';
+
 class AboutPage extends StatefulWidget {
   AboutPage({Key key, this.title}) : super(key: key);
 
@@ -10,7 +11,6 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-
   Widget _labelTittle() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -30,7 +30,7 @@ class _AboutPageState extends State<AboutPage> {
       child: Image.asset("assets/logo.png"),
     );
   }
-  
+
   Widget _labelVersion() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -44,13 +44,12 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
-
   Widget _labelLine() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
         ' _____________________________________ ',
-                textAlign: TextAlign.center,
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.black12,
           fontSize: 16,
@@ -59,7 +58,7 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
-    Widget _labelDisenado() {
+  Widget _labelDisenado() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -71,23 +70,19 @@ class _AboutPageState extends State<AboutPage> {
       ),
     );
   }
-  
-    Widget _labelDisenadoP() {
+
+  Widget _labelDisenadoP() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
         'Alondra Sánchez',
         style: TextStyle(
-          color: Colors.black87,
-          fontSize: 20,
-          fontWeight: FontWeight.bold
-        ),
+            color: Colors.black87, fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );
   }
 
-
-    Widget _labelProgramado() {
+  Widget _labelProgramado() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -99,23 +94,20 @@ class _AboutPageState extends State<AboutPage> {
       ),
     );
   }
-  
-    Widget _labelProgramadoP() {
+
+  Widget _labelProgramadoP() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
         'Alondra Sánchez \nDeisy D. Gonzalez \n Mark A. López',
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: Colors.black87,
-          fontSize: 20,
-          fontWeight: FontWeight.bold
-        ),
+            color: Colors.black87, fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );
   }
 
-   Widget _labelDerechos() {
+  Widget _labelDerechos() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -128,7 +120,7 @@ class _AboutPageState extends State<AboutPage> {
       ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -137,38 +129,7 @@ class _AboutPageState extends State<AboutPage> {
         title: Text('Acerca de'),
         backgroundColor: Color(0xff0C2431),
       ),
-      drawer: Drawer(
-          child: new ListView(
-        children: <Widget>[
-          Container(
-              child: InkWell(
-            child: Text('Visita Actual',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xff0C2431),
-                )),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => VisitPage()));
-            },
-          )),
-          
-          Container(
-              child: InkWell(
-            child: Text('Acerca de',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xff0C2431),
-                )),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutPage()));
-            },
-          )),
-
-          //Menu deisy
-        ],
-      )),
+      drawer: MenuLateral(),
       body: Container(
         height: height,
         child: Stack(

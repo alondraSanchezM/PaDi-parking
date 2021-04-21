@@ -33,5 +33,11 @@ flutter:
     - assets/visa.png
     - assets/paypal.png
     - assets/master.png
+    - assets/avatar.png
+    - assets/tache.png
+    - assets/tarjeta.png
+    - assets/user.png
+    - assets/search.png
+    - assets/facebook.png
     - assets/androidLoading.gif
     

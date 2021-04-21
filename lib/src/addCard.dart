@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'drawer.dart';
+import 'payment.dart';
 
 class AddCard extends StatefulWidget {
   AddCard({Key key, this.title}) : super(key: key);
@@ -138,20 +140,34 @@ class _AddCardState extends State<AddCard> {
   }
 
   Widget _submitButton() {
-    return Container(
+    /*return Container(
       width: 149,
       padding: EdgeInsets.symmetric(vertical: 15),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
         color: Color(0xff91C499),
-      ),
-      child: Text(
-        'GUARDAR',
-        style: TextStyle(
-          fontSize: 14,
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
+      ),*/
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PaymentPage()));
+      },
+      child: Container(
+        width: 149,
+        padding: EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: Color(0xff91C499),
+        ),
+        child: Text(
+          'GUARDAR',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );
@@ -163,22 +179,16 @@ class _AddCardState extends State<AddCard> {
     return Scaffold(
       appBar: PreferredSize(
         child: AppBar(
-          toolbarHeight: 128,
-          title: new Padding(
-            padding: const EdgeInsets.only(top: 78),
-            child: new Text('Añadir tarjeta'),
+          toolbarHeight: 58,
+          title: Padding(
+            padding: const EdgeInsets.only(top: 45, bottom: 7),
+            child: Text('Editar métodos de pago'),
           ),
           backgroundColor: Color(0xff0C2431),
         ),
-        preferredSize: Size.fromHeight(128.0),
+        preferredSize: Size.fromHeight(75.0),
       ),
-      drawer: Drawer(
-          child: new ListView(
-        children: <Widget>[
-          Text('Primero elemento!'),
-          //Menu deisy
-        ],
-      )),
+      drawer: MenuLateral(),
       body: Container(
         height: height,
         child: Stack(
