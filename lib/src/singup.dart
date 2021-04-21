@@ -75,7 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        _entryField("CORREO ELECTRÓNICO", "tunombre@email.com"),
+        _entryField("CORREO ELECTRÓNICO", "yourdata@email.com"),
         SizedBox(height: 10),
         _entryField("NOMBRE", "Juan"),
         SizedBox(height: 10),
@@ -175,13 +175,6 @@ class _SignUpPageState extends State<SignUpPage> {
         title: Text('Registro'),
         backgroundColor: Color(0xff0C2431),
       ),
-      drawer: Drawer(
-          child: new ListView(
-        children: <Widget>[
-          Text('Primero elemento!'),
-          //Menu deisy
-        ],
-      )),
       body: Container(
         height: height,
         child: Stack(

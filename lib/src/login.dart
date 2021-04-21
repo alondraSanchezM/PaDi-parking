@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
           TextField(
               obscureText: false,
               decoration: InputDecoration(
-                  hintText: 'tunombre@gmail.com',
+                  hintText: 'yourdata@email.com',
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
                   filled: true))
@@ -258,13 +258,6 @@ class _LoginPageState extends State<LoginPage> {
           title: Text('Iniciar sesión'),
           backgroundColor: Color(0xff0C2431),
         ),
-        drawer: Drawer(
-            child: new ListView(
-          children: <Widget>[
-            Text('Primero elemento!'),
-            //Menu deisy
-          ],
-        )),
         body: Container(
           height: height,
           child: Stack(
