@@ -12,6 +12,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  TextEditingController _email = TextEditingController();
+  TextEditingController _pass = TextEditingController();
+
   Widget _emailField() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -29,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
             height: 10,
           ),
           TextField(
+            controller: _email,
               obscureText: false,
               decoration: InputDecoration(
                   hintText: 'yourdata@email.com',
@@ -57,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
             height: 10,
           ),
           TextField(
+            controller: _pass,
               obscureText: true,
               decoration: InputDecoration(
                   hintText: '********',

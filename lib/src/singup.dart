@@ -11,14 +11,108 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  Widget _entryField(String title, String hint, {bool isPassword = false}) {
+  TextEditingController _email = TextEditingController();
+  TextEditingController _pass = TextEditingController();
+  TextEditingController _name = TextEditingController();
+  TextEditingController _lastName = TextEditingController();
+
+ Widget _emailField() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'CORREO ELECTRÓNICO',
+            style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 10,
+                color: Color(0x99000000)),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            controller: _email,
+              obscureText: false,
+              decoration: InputDecoration(
+                  hintText: 'yourdata@email.com',
+                  border: InputBorder.none,
+                  fillColor: Color(0xfff3f3f4),
+                  filled: true))
+        ],
+      ),
+    );
+  }
+
+  
+ Widget _nameField() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'NOMBRE',
+            style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 10,
+                color: Color(0x99000000)),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            controller: _name,
+              obscureText: false,
+              decoration: InputDecoration(
+                  hintText: 'Juan',
+                  border: InputBorder.none,
+                  fillColor: Color(0xfff3f3f4),
+                  filled: true))
+        ],
+      ),
+    );
+  }
+
+  
+ Widget _lastNameField() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'APELLIDO',
+            style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 10,
+                color: Color(0x99000000)),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            controller: _lastName,
+              obscureText: false,
+              decoration: InputDecoration(
+                  hintText: 'Miranda',
+                  border: InputBorder.none,
+                  fillColor: Color(0xfff3f3f4),
+                  filled: true))
+        ],
+      ),
+    );
+  }
+
+  Widget _passwordField() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            title,
+            'CONTRASEÑA',
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 10,
@@ -28,9 +122,10 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 6,
           ),
           TextField(
-              obscureText: isPassword,
+            controller: _pass,
+              obscureText: true,
               decoration: InputDecoration(
-                  hintText: hint,
+                  hintText: '********',
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
                   filled: true))
@@ -72,19 +167,6 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _emailPasswordWidget() {
-    return Column(
-      children: <Widget>[
-        _entryField("CORREO ELECTRÓNICO", "yourdata@email.com"),
-        SizedBox(height: 10),
-        _entryField("NOMBRE", "Juan"),
-        SizedBox(height: 10),
-        _entryField("APELLIDO", "Miranda"),
-        SizedBox(height: 10),
-        _entryField("CONTRASEÑA", "*******", isPassword: true),
-      ],
-    );
-  }
 
   Widget _labelOr() {
     return Container(
@@ -197,11 +279,14 @@ class _SignUpPageState extends State<SignUpPage> {
                     _facebookButton(),
                     _labelOr(),
                     SizedBox(height: 24),
-                    _emailPasswordWidget(),
+                    _emailField(),
+                    _nameField(),
+                    _lastNameField(),
+                    _passwordField(),
                     _loginAccountLabel(),
                     SizedBox(height: height * .10),
                       _submitButton(),
-                    SizedBox(height: 24),
+                    SizedBox(height: 36),
                   ],
                 ),
               ),
