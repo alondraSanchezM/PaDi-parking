@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "692192812334",
-    "project_id": "padi-parking",
-    "storage_bucket": "padi-parking.appspot.com"
+    "project_number": "692198454377",
+    "project_id": "padi-4dfcf",
+    "storage_bucket": "padi-4dfcf.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:692192812334:android:946271267eaf31e52f6ebf",
+        "mobilesdk_app_id": "1:692198454377:android:0cfa6ddece5d403b1f5ef8",
         "android_client_info": {
           "package_name": "alondrasanchez.padi_parking"
         }
       },
       "oauth_client": [
         {
-          "client_id": "692192812334-pgl581febp5lr2oj4ut48bp397fb6r8p.apps.googleusercontent.com",
+          "client_id": "692198454377-canu60hr8rj2tte1c3e3h4qadmdcq376.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "alondrasanchez.padi_parking",
+            "certificate_hash": "dfb62edeeb33a1c7864b82ec37f3c56d60468145"
+          }
+        },
+        {
+          "client_id": "692198454377-fv87ui7hc81kmq8bfue7vj1bfrq94fvf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAlX7q3kWPZHvCqv9lP2ZctcqY-PyHW0tQ"
+          "current_key": "AIzaSyD2E6kWbtQ1jYfRfF5qPtrjdhcemYHQAuE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "692192812334-pgl581febp5lr2oj4ut48bp397fb6r8p.apps.googleusercontent.com",
+              "client_id": "692198454377-fv87ui7hc81kmq8bfue7vj1bfrq94fvf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
