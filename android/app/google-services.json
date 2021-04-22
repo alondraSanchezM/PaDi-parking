@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "692192812334",
+    "project_id": "padi-parking",
+    "storage_bucket": "padi-parking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692192812334:android:946271267eaf31e52f6ebf",
+        "android_client_info": {
+          "package_name": "alondrasanchez.padi_parking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "692192812334-pgl581febp5lr2oj4ut48bp397fb6r8p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlX7q3kWPZHvCqv9lP2ZctcqY-PyHW0tQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "692192812334-pgl581febp5lr2oj4ut48bp397fb6r8p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
