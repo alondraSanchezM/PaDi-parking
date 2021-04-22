@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:padi_parking/src/welcome.dart';
 import 'login.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -16,7 +18,31 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _name = TextEditingController();
   TextEditingController _lastName = TextEditingController();
 
- Widget _emailField() {
+  Future registerUser() async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        //tambien deberia poner nombre y apellido
+        email: _email.text,
+        password: _pass.text,
+      );
+      print("Usuario registrado correctamente");
+      print(userCredential.user);
+      Navigator.push(
+            context, MaterialPageRoute(builder: (context) => WelcomePage()));
+    
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('La contraseña es muy débil.');
+      } else if (e.code == 'email-already-in-use') {
+        print('Ya hay una cuenta registrada con este correo');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Widget _emailField() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -33,7 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 10,
           ),
           TextField(
-            controller: _email,
+              controller: _email,
               obscureText: false,
               decoration: InputDecoration(
                   hintText: 'yourdata@email.com',
@@ -45,8 +71,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  
- Widget _nameField() {
+  Widget _nameField() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -63,7 +88,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 10,
           ),
           TextField(
-            controller: _name,
+              controller: _name,
               obscureText: false,
               decoration: InputDecoration(
                   hintText: 'Juan',
@@ -75,8 +100,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  
- Widget _lastNameField() {
+  Widget _lastNameField() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -93,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 10,
           ),
           TextField(
-            controller: _lastName,
+              controller: _lastName,
               obscureText: false,
               decoration: InputDecoration(
                   hintText: 'Miranda',
@@ -122,7 +146,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 6,
           ),
           TextField(
-            controller: _pass,
+              controller: _pass,
               obscureText: true,
               decoration: InputDecoration(
                   hintText: '********',
@@ -166,7 +190,6 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
-
 
   Widget _labelOr() {
     return Container(
@@ -230,8 +253,12 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _submitButton() {
-    return Container(
-      width: 149,
+    return InkWell(
+      onTap: () {
+        registerUser();
+       },
+      child: Container(
+        width: 149,
       padding: EdgeInsets.symmetric(vertical: 15),
       alignment: Alignment.center,
       decoration: BoxDecoration(
@@ -246,7 +273,9 @@ class _SignUpPageState extends State<SignUpPage> {
           fontWeight: FontWeight.w700,
         ),
       ),
+    ),
     );
+
   }
 
   @override
@@ -285,7 +314,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     _passwordField(),
                     _loginAccountLabel(),
                     SizedBox(height: height * .10),
-                      _submitButton(),
+                    _submitButton(),
                     SizedBox(height: 36),
                   ],
                 ),

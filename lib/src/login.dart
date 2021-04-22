@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'singup.dart';
 import 'welcome.dart';
@@ -12,9 +13,25 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   TextEditingController _email = TextEditingController();
   TextEditingController _pass = TextEditingController();
+
+  Future loginUser() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: _email.text, password: _pass.text);
+      print("Usuario logiado correctamente");
+      print(userCredential.user);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => WelcomePage()));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No se encontró usuario con ese email');
+      } else if (e.code == 'wrong-password') {
+        print('Contraseña incorrecta');
+      }
+    }
+  }
 
   Widget _emailField() {
     return Container(
@@ -33,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
             height: 10,
           ),
           TextField(
-            controller: _email,
+              controller: _email,
               obscureText: false,
               decoration: InputDecoration(
                   hintText: 'yourdata@email.com',
@@ -62,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
             height: 10,
           ),
           TextField(
-            controller: _pass,
+              controller: _pass,
               obscureText: true,
               decoration: InputDecoration(
                   hintText: '********',
@@ -77,8 +94,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _submitButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => WelcomePage()));
+        loginUser();
       },
       child: Container(
         width: 149,
