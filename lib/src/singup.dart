@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:padi_parking/src/welcome.dart';
 import 'login.dart';
 
@@ -18,19 +20,63 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _name = TextEditingController();
   TextEditingController _lastName = TextEditingController();
 
+  //Facebook login
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FacebookLogin _facebookLogin = FacebookLogin();
+  User _user;
+
+  Future _handleLogin() async {
+    FacebookLoginResult _result = await _facebookLogin.logIn(['email']);
+    switch(_result.status){
+      case FacebookLoginStatus.cancelledByUser:
+        print("Cancelado por el usuario");
+      break;
+      case FacebookLoginStatus.error:
+        print("error");
+      break;
+      case FacebookLoginStatus.loggedIn:
+        await _loginWithFacebook(_result);
+        _user.displayName;
+      break;
+      default:
+    }
+  }
+
+  Future _loginWithFacebook(FacebookLoginResult _result) async {
+    FacebookAccessToken _accessToken = _result.accessToken;
+    AuthCredential _credential = FacebookAuthProvider.credential(_accessToken.token);
+    var a = await _auth.signInWithCredential(_credential);
+    setState(() {
+      _user = a.user;
+        Navigator.push(
+          context, MaterialPageRoute(builder: (context) => WelcomePage()));
+    
+    });
+  }
+
   Future registerUser() async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        //tambien deberia poner nombre y apellido
         email: _email.text,
         password: _pass.text,
       );
+      User user = userCredential.user;
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'uid': user.uid,
+        'email': user.email,
+        'name': _email.text,
+        'lastName': _lastName.text
+      });
+
       print("Usuario registrado correctamente");
       print(userCredential.user);
       Navigator.push(
-            context, MaterialPageRoute(builder: (context) => WelcomePage()));
-    
+          context, MaterialPageRoute(builder: (context) => WelcomePage()));
+      _email.clear();
+      _pass.clear();
+      _name.clear();
+      _lastName.clear();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('La contraseña es muy débil.');
@@ -205,49 +251,54 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _facebookButton() {
-    return Container(
-      height: 50,
-      margin: EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xff1959a9),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(5),
-                    topLeft: Radius.circular(5)),
+    return InkWell(
+      onTap: () {
+      _handleLogin();
+        },
+      child: Container(
+        height: 50,
+        margin: EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xff1959a9),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(5),
+                      topLeft: Radius.circular(5)),
+                ),
+                alignment: Alignment.center,
+                child: Text('f',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w400)),
               ),
-              alignment: Alignment.center,
-              child: Text('f',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w400)),
             ),
-          ),
-          Expanded(
-            flex: 5,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xff2872ba),
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(5),
-                    topRight: Radius.circular(5)),
+            Expanded(
+              flex: 5,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xff2872ba),
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(5),
+                      topRight: Radius.circular(5)),
+                ),
+                alignment: Alignment.center,
+                child: Text('CREA UNA CUENTA CON FACEBOOK',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700)),
               ),
-              alignment: Alignment.center,
-              child: Text('CREA UNA CUENTA CON FACEBOOK',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700)),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -256,26 +307,25 @@ class _SignUpPageState extends State<SignUpPage> {
     return InkWell(
       onTap: () {
         registerUser();
-       },
+      },
       child: Container(
         width: 149,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        color: Color(0xff91C499),
-      ),
-      child: Text(
-        'CREAR CUENTA',
-        style: TextStyle(
-          fontSize: 14,
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
+        padding: EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: Color(0xff91C499),
+        ),
+        child: Text(
+          'CREAR CUENTA',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
-    ),
     );
-
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'singup.dart';
 import 'welcome.dart';
 
@@ -15,6 +16,39 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _email = TextEditingController();
   TextEditingController _pass = TextEditingController();
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FacebookLogin _facebookLogin = FacebookLogin();
+  User _user;
+
+  Future _handleLogin() async {
+    FacebookLoginResult _result = await _facebookLogin.logIn(['email']);
+    switch (_result.status) {
+      case FacebookLoginStatus.cancelledByUser:
+        print("Cancelado por el usuario");
+        break;
+      case FacebookLoginStatus.error:
+        print("error");
+        break;
+      case FacebookLoginStatus.loggedIn:
+        await _loginWithFacebook(_result);
+        _user.displayName;
+        break;
+      default:
+    }
+  }
+
+  Future _loginWithFacebook(FacebookLoginResult _result) async {
+    FacebookAccessToken _accessToken = _result.accessToken;
+    AuthCredential _credential =
+        FacebookAuthProvider.credential(_accessToken.token);
+    var a = await _auth.signInWithCredential(_credential);
+    setState(() {
+      _user = a.user;
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => WelcomePage()));
+    });
+  }
 
   Future loginUser() async {
     try {
@@ -130,49 +164,54 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _facebookButton() {
-    return Container(
-      height: 50,
-      margin: EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xff1959a9),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(5),
-                    topLeft: Radius.circular(5)),
+    return InkWell(
+      onTap: () {
+        _handleLogin();
+      },
+      child: Container(
+        height: 50,
+        margin: EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xff1959a9),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(5),
+                      topLeft: Radius.circular(5)),
+                ),
+                alignment: Alignment.center,
+                child: Text('f',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w400)),
               ),
-              alignment: Alignment.center,
-              child: Text('f',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w400)),
             ),
-          ),
-          Expanded(
-            flex: 5,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xff2872ba),
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(5),
-                    topRight: Radius.circular(5)),
+            Expanded(
+              flex: 5,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xff2872ba),
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(5),
+                      topRight: Radius.circular(5)),
+                ),
+                alignment: Alignment.center,
+                child: Text('CREA UNA CUENTA CON FACEBOOK',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700)),
               ),
-              alignment: Alignment.center,
-              child: Text('INICIA SESIÓN CON FACEBOOK',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700)),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
