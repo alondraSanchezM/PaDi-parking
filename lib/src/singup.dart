@@ -20,37 +20,36 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _name = TextEditingController();
   TextEditingController _lastName = TextEditingController();
 
-  //Facebook login
   FirebaseAuth _auth = FirebaseAuth.instance;
   FacebookLogin _facebookLogin = FacebookLogin();
   User _user;
 
   Future _handleLogin() async {
     FacebookLoginResult _result = await _facebookLogin.logIn(['email']);
-    switch(_result.status){
+    switch (_result.status) {
       case FacebookLoginStatus.cancelledByUser:
         print("Cancelado por el usuario");
-      break;
+        break;
       case FacebookLoginStatus.error:
         print("error");
-      break;
+        break;
       case FacebookLoginStatus.loggedIn:
         await _loginWithFacebook(_result);
         _user.displayName;
-      break;
+        break;
       default:
     }
   }
 
   Future _loginWithFacebook(FacebookLoginResult _result) async {
     FacebookAccessToken _accessToken = _result.accessToken;
-    AuthCredential _credential = FacebookAuthProvider.credential(_accessToken.token);
+    AuthCredential _credential =
+        FacebookAuthProvider.credential(_accessToken.token);
     var a = await _auth.signInWithCredential(_credential);
     setState(() {
       _user = a.user;
-        Navigator.push(
+      Navigator.push(
           context, MaterialPageRoute(builder: (context) => WelcomePage()));
-    
     });
   }
 
@@ -68,8 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
         'name': _email.text,
         'lastName': _lastName.text
       });
-
-      print("Usuario registrado correctamente");
+      
       print(userCredential.user);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => WelcomePage()));
@@ -79,13 +77,60 @@ class _SignUpPageState extends State<SignUpPage> {
       _lastName.clear();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('La contraseña es muy débil.');
+        _showDialogs("La contraseña es muy débil");
+        _email.clear();
       } else if (e.code == 'email-already-in-use') {
-        print('Ya hay una cuenta registrada con este correo');
+        _showDialogs("Ya hay una cuenta registrada con este correo");
+        _pass.clear();
+        _name.clear();
+        _lastName.clear();
       }
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<void> _showDialogs(String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'PaDi dice ...',
+            style: TextStyle(
+              color: Color(0xe6000000),
+              fontSize: 16,
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  message,
+                  style: TextStyle(color: Color(0x99000000)),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  color: Color(0xff0C2431),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _emailField() {
@@ -253,8 +298,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _facebookButton() {
     return InkWell(
       onTap: () {
-      _handleLogin();
-        },
+        _handleLogin();
+      },
       child: Container(
         height: 50,
         margin: EdgeInsets.symmetric(vertical: 10),
