@@ -1,3 +1,6 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'drawer.dart';
 import 'endVisit.dart';
@@ -12,11 +15,11 @@ class VisitPage extends StatefulWidget {
 }
 
 class _VisitPageState extends State<VisitPage> {
-  Widget _labelTittle() {
+  Widget _labelTittle(String estacionamiento){
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
-        'Galerías Serdán',
+        estacionamiento,
         style: TextStyle(color: Colors.black87, fontSize: 24),
       ),
     );
@@ -43,11 +46,11 @@ class _VisitPageState extends State<VisitPage> {
     );
   }
 
-  Widget _labelHora() {
+  Widget _labelHora(String horaE) {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
-        '9:23',
+        horaE,
         textAlign: TextAlign.right,
         style: TextStyle(
           fontWeight: FontWeight.w100,
@@ -99,11 +102,11 @@ class _VisitPageState extends State<VisitPage> {
     );
   }
 
-  Widget _labelNivel() {
+  Widget _labelNivel(String nivel) {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
-        'Nivel: 02',
+        'Nivel: $nivel',
         style: TextStyle(
           color: Colors.black87,
           fontSize: 20,
@@ -112,11 +115,11 @@ class _VisitPageState extends State<VisitPage> {
     );
   }
 
-  Widget _labelSector() {
+  Widget _labelSector(String sector) {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
-        'Sector: B',
+        'Sector: $sector',
         style: TextStyle(
           color: Colors.black87,
           fontSize: 20,
@@ -125,11 +128,11 @@ class _VisitPageState extends State<VisitPage> {
     );
   }
 
-  Widget _labelCajon() {
+  Widget _labelCajon(String noCajon) {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
-        'No. Cajón: 12',
+        'No. Cajón: $noCajon',
         style: TextStyle(
           color: Colors.black87,
           fontSize: 20,
@@ -164,10 +167,21 @@ class _VisitPageState extends State<VisitPage> {
     );
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
+    User user1 = FirebaseAuth.instance.currentUser;
     final height = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('visits')
+            .where('activo', isEqualTo: 'on')
+            .where('email', isEqualTo: user1.email)
+            .limit(1)
+          .snapshots(),
+      builder: (context, snapshot) {
+      if(snapshot.hasData){
+        Kisi user = Kisi.fromDocument(snapshot.data);
+        return Scaffold(
       appBar: AppBar(
         title: Text('Estado de Visita'),
         backgroundColor: Color(0xff0C2431),
@@ -195,7 +209,7 @@ class _VisitPageState extends State<VisitPage> {
                     Container(
                       child: Align(
                         alignment: Alignment.topLeft,
-                        child: _labelTittle(),
+                        child: _labelTittle(user.nombreEstacionamiento),
                       ),
                     ),
                     _labelLine(),
@@ -209,7 +223,7 @@ class _VisitPageState extends State<VisitPage> {
                     Container(
                       child: Align(
                         alignment: Alignment.topRight,
-                        child: _labelHora(),
+                        child: _labelHora(user.hora),
                       ),
                     ),
                     SizedBox(height: 24),
@@ -222,11 +236,11 @@ class _VisitPageState extends State<VisitPage> {
                     SizedBox(height: 36),
                     _labelDatosAparcamiento(),
                     SizedBox(height: 36),
-                    _labelNivel(),
+                    _labelNivel(user.nivel),
                     _labelLineB2(),
-                    _labelSector(),
+                    _labelSector(user.sector),
                     _labelLineB2(),
-                    _labelCajon(),
+                    _labelCajon(user.noCajon),
                     _labelLineB2(),
                     SizedBox(height: 84),
                     _submitButton(),
@@ -238,5 +252,43 @@ class _VisitPageState extends State<VisitPage> {
         ),
       ),
     );
+
+       }
+      else {
+        return CircularProgressIndicator();
+      }
+      },
+    );
+  }
+}
+
+
+ class Kisi {
+  final String hora,sector,email,nivel,noCajon,nombreEstacionamiento;
+  Kisi({this.hora,this.sector,this.email,this.noCajon,this.nivel,this.nombreEstacionamiento});
+
+  factory Kisi.fromDocument(QuerySnapshot documentsSa)
+  {
+List<DocumentSnapshot> listaDoc= [];
+          
+    documentsSa.docs.forEach((doc) {
+      print( doc.data()['sector'].toString());
+    listaDoc.add(doc);
+          
+  });
+    
+      print( listaDoc[0].data()['sector'].toString());
+      print( 'listaDoc.length');
+
+      print( listaDoc.length);
+
+    return Kisi(
+      sector:   listaDoc[0].data()['sector'].toString(),
+      hora:   listaDoc[0].data()['hora'].toString(),
+      noCajon:   listaDoc[0].data()['noCajon'].toString(),
+      nivel:   listaDoc[0].data()['nivel'].toString(),
+      nombreEstacionamiento:   listaDoc[0].data()['nombreEstacionamiento'].toString(),
+    );
+        
   }
 }
