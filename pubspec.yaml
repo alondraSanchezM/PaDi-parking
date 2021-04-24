@@ -18,6 +18,8 @@ dependencies:
   firebase_core: ^1.0.4
   cloud_firestore: ^1.0.6
   flutter_facebook_login: ^3.0.0
+  pretty_qr_code: ^1.0.2
+  firebase_database: ^6.1.2
 
 
 dev_dependencies:
