@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class VisitPage extends StatefulWidget {
 }
 
 class _VisitPageState extends State<VisitPage> {
-  Widget _labelTittle(String estacionamiento){
+  Widget _labelTittle(String estacionamiento) {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -167,128 +166,129 @@ class _VisitPageState extends State<VisitPage> {
     );
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     User user1 = FirebaseAuth.instance.currentUser;
     final height = MediaQuery.of(context).size.height;
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('visits')
-            .where('activo', isEqualTo: 'on')
-            .where('email', isEqualTo: user1.email)
-            .limit(1)
+          .where('activo', isEqualTo: 'on')
+          .where('email', isEqualTo: user1.email)
+          .limit(1)
           .snapshots(),
       builder: (context, snapshot) {
-      if(snapshot.hasData){
-        Kisi user = Kisi.fromDocument(snapshot.data);
-        return Scaffold(
-      appBar: AppBar(
-        title: Text('Estado de Visita'),
-        backgroundColor: Color(0xff0C2431),
-      ),
-      drawer: MenuLateral(),
-      body: Container(
-        height: height,
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: Image.asset(
-                "assets/high-shape.png",
-                fit: BoxFit.fitWidth,
-                alignment: Alignment.bottomLeft,
+        if (snapshot.hasData) {
+          Kisi user = Kisi.fromDocument(snapshot.data);
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('Estado de Visita'),
+              backgroundColor: Color(0xff0C2431),
+            ),
+            drawer: MenuLateral(),
+            body: Container(
+              height: height,
+              child: Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: Image.asset(
+                      "assets/high-shape.png",
+                      fit: BoxFit.fitWidth,
+                      alignment: Alignment.bottomLeft,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(height: 24),
+                          Container(
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: _labelTittle(user.nombreEstacionamiento),
+                            ),
+                          ),
+                          _labelLine(),
+                          SizedBox(height: 24),
+                          Container(
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: _labelHoraE(),
+                            ),
+                          ),
+                          Container(
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: _labelHora(user.hora),
+                            ),
+                          ),
+                          SizedBox(height: 24),
+                          Container(
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: _labelAlfiler(),
+                            ),
+                          ),
+                          SizedBox(height: 36),
+                          _labelDatosAparcamiento(),
+                          SizedBox(height: 36),
+                          _labelNivel(user.nivel),
+                          _labelLineB2(),
+                          _labelSector(user.sector),
+                          _labelLineB2(),
+                          _labelCajon(user.noCajon),
+                          _labelLineB2(),
+                          SizedBox(height: 84),
+                          _submitButton(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 24),
-                    Container(
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: _labelTittle(user.nombreEstacionamiento),
-                      ),
-                    ),
-                    _labelLine(),
-                    SizedBox(height: 24),
-                    Container(
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: _labelHoraE(),
-                      ),
-                    ),
-                    Container(
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: _labelHora(user.hora),
-                      ),
-                    ),
-                    SizedBox(height: 24),
-                    Container(
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: _labelAlfiler(),
-                      ),
-                    ),
-                    SizedBox(height: 36),
-                    _labelDatosAparcamiento(),
-                    SizedBox(height: 36),
-                    _labelNivel(user.nivel),
-                    _labelLineB2(),
-                    _labelSector(user.sector),
-                    _labelLineB2(),
-                    _labelCajon(user.noCajon),
-                    _labelLineB2(),
-                    SizedBox(height: 84),
-                    _submitButton(),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-
-       }
-      else {
-        return CircularProgressIndicator();
-      }
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
       },
     );
   }
 }
 
+class Kisi {
+  final String hora, sector, email, nivel, noCajon, nombreEstacionamiento;
+  Kisi(
+      {this.hora,
+      this.sector,
+      this.email,
+      this.noCajon,
+      this.nivel,
+      this.nombreEstacionamiento});
 
- class Kisi {
-  final String hora,sector,email,nivel,noCajon,nombreEstacionamiento;
-  Kisi({this.hora,this.sector,this.email,this.noCajon,this.nivel,this.nombreEstacionamiento});
+  factory Kisi.fromDocument(QuerySnapshot documentsSa) {
+    List<DocumentSnapshot> listaDoc = [];
 
-  factory Kisi.fromDocument(QuerySnapshot documentsSa)
-  {
-List<DocumentSnapshot> listaDoc= [];
-          
     documentsSa.docs.forEach((doc) {
-      print( doc.data()['sector'].toString());
-    listaDoc.add(doc);
-          
-  });
-    
-      print( listaDoc[0].data()['sector'].toString());
-      print( 'listaDoc.length');
+      print(doc.data()['sector'].toString());
+      listaDoc.add(doc);
+    });
 
-      print( listaDoc.length);
+    print(listaDoc[0].data()['sector'].toString());
+    print('listaDoc.length');
+
+    print(listaDoc.length);
 
     return Kisi(
-      sector:   listaDoc[0].data()['sector'].toString(),
-      hora:   listaDoc[0].data()['hora'].toString(),
-      noCajon:   listaDoc[0].data()['noCajon'].toString(),
-      nivel:   listaDoc[0].data()['nivel'].toString(),
-      nombreEstacionamiento:   listaDoc[0].data()['nombreEstacionamiento'].toString(),
+      sector: listaDoc[0].data()['sector'].toString(),
+      hora: listaDoc[0].data()['hora'].toString(),
+      noCajon: listaDoc[0].data()['noCajon'].toString(),
+      nivel: listaDoc[0].data()['nivel'].toString(),
+      nombreEstacionamiento:
+          listaDoc[0].data()['nombreEstacionamiento'].toString(),
     );
-        
   }
 }

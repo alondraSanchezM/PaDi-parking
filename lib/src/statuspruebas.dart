@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; // new
 
-
 class HomePage extends StatelessWidget {
   HomePage({Key key}) : super(key: key);
 
@@ -24,17 +23,15 @@ class HomePage extends StatelessWidget {
             endIndent: 8,
             color: Colors.grey,
           ),
-         
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                  GuestBook(
-                    addMessage: (String message) =>
-                        appState.addMessageToGuestBook(message),
-                    messages: appState.guestBookMessages, // new
-                  ),
-                
+                GuestBook(
+                  addMessage: (String message) =>
+                      appState.addMessageToGuestBook(message),
+                  messages: appState.guestBookMessages, // new
+                ),
               ],
             ),
           ),
@@ -51,38 +48,37 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> init() async {
     await Firebase.initializeApp();
-          
-    User user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-      
-        _guestBookSubscription = FirebaseFirestore.instance
-            .collection('visit')
-            .where('activo', isEqualTo: 'on')
-            // .where('id_estacionamiento', isEqualTo: 'rho00${randf.toString()}')
-            .snapshots()
-            .listen((snapshot) {
-          _guestBookMessages = [];
-          snapshot.docs.forEach((document) {
-            String nombreD=document["nombreEstacionamiento"].toString();
-            String messageD=document["nivel"].toString();
 
-            _guestBookMessages.add(
-              GuestBookMessage(
-                name: nombreD,
-                message: messageD,
-              ),
-            );
-          });
-          
-          notifyListeners();
+    User user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      _guestBookSubscription = FirebaseFirestore.instance
+          .collection('visit')
+          .where('activo', isEqualTo: 'on')
+          // .where('id_estacionamiento', isEqualTo: 'rho00${randf.toString()}')
+          .snapshots()
+          .listen((snapshot) {
+        _guestBookMessages = [];
+        snapshot.docs.forEach((document) {
+          String nombreD = document["nombreEstacionamiento"].toString();
+          String messageD = document["nivel"].toString();
+
+          _guestBookMessages.add(
+            GuestBookMessage(
+              name: nombreD,
+              message: messageD,
+            ),
+          );
         });
 
-            // to here
-      } else {
-        _guestBookMessages = [];
-        _guestBookSubscription?.cancel();
-      }
-      notifyListeners();
+        notifyListeners();
+      });
+
+      // to here
+    } else {
+      _guestBookMessages = [];
+      _guestBookSubscription?.cancel();
+    }
+    notifyListeners();
   }
 
   // Add from here
@@ -92,7 +88,6 @@ class ApplicationState extends ChangeNotifier {
   // to here.
 
   Future<DocumentReference> addMessageToGuestBook(String message) {
-
     return FirebaseFirestore.instance.collection('visits').add({
       'text': message,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
@@ -103,17 +98,15 @@ class ApplicationState extends ChangeNotifier {
 }
 
 class GuestBookMessage {
-  GuestBookMessage({ this.name,  this.message});
-    final String name;
-    final String message;
-  }
-  
-
+  GuestBookMessage({this.name, this.message});
+  final String name;
+  final String message;
+}
 
 class GuestBook extends StatefulWidget {
   // Modify the following line
-  GuestBook({ this.addMessage,  this.messages});
-  
+  GuestBook({this.addMessage, this.messages});
+
   final FutureOr<void> Function(String message) addMessage;
   final List<GuestBookMessage> messages; // new
 
@@ -153,16 +146,16 @@ class _GuestBookState extends State<GuestBook> {
                   ),
                 ),
                 SizedBox(width: 8),
-                
               ],
             ),
           ),
         ),
         // Modify from here
         SizedBox(height: 8),
+        // ignore: unused_local_variable
         for (var message in widget.messages)
           // Paragraph('${message.name}: ${message.message}'),
-        SizedBox(height: 8),
+          SizedBox(height: 8),
         // to here.
       ],
     );

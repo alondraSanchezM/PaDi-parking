@@ -9,17 +9,15 @@ import 'dart:math';
 
 class WelcomePage extends StatefulWidget {
   WelcomePage({Key key, this.title}) : super(key: key);
- 
+
   final String title;
 
   @override
   _WelcomePageState createState() => _WelcomePageState();
 }
 
-
 class _WelcomePageState extends State<WelcomePage> {
   Widget _qrScan() {
-    
     User user = FirebaseAuth.instance.currentUser;
 
     return InkWell(
@@ -38,7 +36,6 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-
   void addVisits() async {
     String email;
     var idEstacionado;
@@ -48,6 +45,7 @@ class _WelcomePageState extends State<WelcomePage> {
     String nombre;
     var noCajon;
     var activo = "on";
+    var uid = getRandomString(7);
     var rng = new Random();
     var randf = 1 + rng.nextInt(2);
 
@@ -84,22 +82,23 @@ class _WelcomePageState extends State<WelcomePage> {
         print(email);
         print(activo);
         print(noCajon);
-        String dia = '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'  ;
-        String hora = '${ DateTime.now().hour}:${ DateTime.now().minute}' ;
-
-         FirebaseFirestore.instance.collection('visits').add({
+        String dia =
+            '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
+        String hora = '${DateTime.now().hour}:${DateTime.now().minute}';
+        FirebaseFirestore.instance.collection('visits').doc(uid).set({
+          //add({
           'dia': dia,
-          'hora':hora,
+          'hora': hora,
           'email': email,
           'nombreEstacionamiento': nombre,
           'nivel': nivel,
           'sector': sectorL,
           'noCajon': noCajon,
           'activo': activo,
+          'uid': uid,
         });
       });
     });
-  
   }
 
   Widget _labelWelcome() {
@@ -157,4 +156,11 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
     );
   }
+}
+
+String getRandomString(int len) {
+  var r = Random();
+  const _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  return List.generate(len, (index) => _chars[r.nextInt(_chars.length)]).join();
 }
