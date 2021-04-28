@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'datacard.dart';
 import 'drawer.dart';
 import 'payment.dart';
 
@@ -12,14 +13,20 @@ class AddCard extends StatefulWidget {
 }
 
 class _AddCardState extends State<AddCard> {
-  Widget _entryField(String title, String hint) {
+  TextEditingController _noCardController = TextEditingController();
+  TextEditingController _expController = TextEditingController();
+  TextEditingController _cvvController = TextEditingController();
+  TextEditingController _codController = TextEditingController();
+  String _pais = 'México';
+
+  Widget _entryFieldCard() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            title,
+            "NÚMERO DE TARJETA",
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 10,
@@ -28,37 +35,132 @@ class _AddCardState extends State<AddCard> {
           SizedBox(
             height: 6,
           ),
-          TextField(
+          TextFormField(
+            controller: _noCardController,
+            validator: (value) {
+              if (value.length == 16) {
+                return null;
+              } else
+                return 'No. tarjeta no válido';
+            },
+            decoration: InputDecoration(
+                hintText: "1234 5678 9012 3456",
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true),
+          ),
+          /*TextField(
               decoration: InputDecoration(
                   hintText: hint,
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
-                  filled: true))
+                  filled: true))*/
         ],
       ),
     );
   }
 
-  Widget _blockField(String title, String hint) {
+  Widget _entryFieldCod() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            title,
+            "CÓDIGO POSTAL",
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 10,
                 color: Color(0x99000000)),
           ),
-          TextField(
+          SizedBox(
+            height: 6,
+          ),
+          TextFormField(
+            controller: _codController,
+            validator: (value) {
+              if (value.length == 16) {
+                return null;
+              } else
+                return 'No. tarjeta no válido';
+            },
+            decoration: InputDecoration(
+                hintText: "123456",
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _blockFieldCVV() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "CVV",
+            style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 10,
+                color: Color(0x99000000)),
+          ),
+          TextFormField(
+            controller: _cvvController,
+            validator: (value) {
+              if (value.length == 3) {
+                return null;
+              } else
+                return 'CVV no válido';
+            },
+            decoration: InputDecoration(
+                hintText: "123",
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true),
+          ),
+          /*TextField(
               obscureText: true,
               decoration: InputDecoration(
                   hintText: hint,
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
-                  filled: true)),
+                  filled: true)),*/
+        ],
+      ),
+    );
+  }
+
+  Widget _blockFieldExp() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "FECHA DE EXP.",
+            style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 10,
+                color: Color(0x99000000)),
+          ),
+          TextFormField(
+            controller: _expController,
+            validator: (value) {
+              if (value.length == 3) {
+                return 'Expiración no válido';
+              } else
+                return null;
+            },
+            decoration: InputDecoration(
+                hintText: "MM/YY",
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true),
+          ),
         ],
       ),
     );
@@ -105,14 +207,15 @@ class _AddCardState extends State<AddCard> {
                         child: Text(value),
                       );
                     }).toList(),
-                    hint: Text("México",
-                        style:
-                            TextStyle(fontSize: 16, color: Color(0x99000000))),
                     onChanged: (String value) {
                       setState(() {
                         _chosenValue = value;
+                        _pais = value;
                       });
                     },
+                    hint: Text(_pais,
+                        style:
+                            TextStyle(fontSize: 16, color: Color(0x99000000))),
                   ))),
         ],
       ),
@@ -122,19 +225,19 @@ class _AddCardState extends State<AddCard> {
   Widget _formWidget() {
     return Column(
       children: <Widget>[
-        _entryField("NÚMERO DE TARJETA", "1234 5678 9012 3456"),
+        _entryFieldCard(),
         SizedBox(height: 10),
         Row(
           children: <Widget>[
-            Flexible(child: _blockField("FECHA DE EXP.", "MM/YY")),
+            Flexible(child: _blockFieldExp()),
             SizedBox(width: 20),
-            Flexible(child: _blockField("CVV", "123")),
+            Flexible(child: _blockFieldCVV()),
           ],
         ),
         SizedBox(height: 10),
         _dropDownList(),
         SizedBox(height: 10),
-        _entryField("CÓDIGO POSTAL", "123456"),
+        _entryFieldCod(),
       ],
     );
   }
@@ -149,7 +252,10 @@ class _AddCardState extends State<AddCard> {
         color: Color(0xff91C499),
       ),*/
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        //convertirlo en función
+        await DataCard().createCard(_noCardController.text, _expController.text,
+            _cvvController.text, _pais.toString(), _codController.text);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => PaymentPage()));
       },
