@@ -278,11 +278,6 @@ class Kisi {
       listaDoc.add(doc);
     });
 
-    print(listaDoc[0].data()['sector'].toString());
-    print('listaDoc.length');
-
-    print(listaDoc.length);
-
     return Kisi(
       sector: listaDoc[0].data()['sector'].toString(),
       hora: listaDoc[0].data()['hora'].toString(),

@@ -11,7 +11,7 @@ import 'profile.dart';
 class MenuLateral extends StatelessWidget {
   Widget build(BuildContext context) {
     User user1 = FirebaseAuth.instance.currentUser;
-    final height = MediaQuery.of(context).size.height;
+    
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('users')
