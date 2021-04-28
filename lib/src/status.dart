@@ -168,6 +168,7 @@ class _VisitPageState extends State<VisitPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     User user1 = FirebaseAuth.instance.currentUser;
     final height = MediaQuery.of(context).size.height;
     return StreamBuilder(

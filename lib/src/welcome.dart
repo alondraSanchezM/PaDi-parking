@@ -30,8 +30,13 @@ class _WelcomePageState extends State<WelcomePage> {
           roundEdges: true),
       onTap: () {
         addVisits();
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => VisitPage()));
+
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => VisitPage()),
+          );
+        });
       },
     );
   }
