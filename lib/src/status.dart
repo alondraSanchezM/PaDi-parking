@@ -274,7 +274,6 @@ class Kisi {
     List<DocumentSnapshot> listaDoc = [];
 
     documentsSa.docs.forEach((doc) {
-      print(doc.data()['sector'].toString());
       listaDoc.add(doc);
     });
 

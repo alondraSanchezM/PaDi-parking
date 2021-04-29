@@ -129,7 +129,6 @@ class UsuarioData {
     List<DocumentSnapshot> listaDoc = [];
 
     documentsSa.docs.forEach((doc) {
-      print(doc.data()['user'].toString());
       listaDoc.add(doc);
     });
 
