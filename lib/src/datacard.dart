@@ -17,6 +17,4 @@ class DataCard {
       'uid': uid,
     });
   }
-
-  Future<void> createPaypal() {}
 }

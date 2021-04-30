@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:padi_parking/src/payment.dart';
-import 'package:provider/provider.dart';
 import 'drawer.dart';
 import 'complete.dart';
 
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter/services.dart';
+
+import 'paypalPayment.dart';
 
 class EndVisitPage extends StatefulWidget {
   EndVisitPage({Key key, this.title}) : super(key: key);
@@ -20,7 +20,8 @@ class EndVisitPage extends StatefulWidget {
 }
 
 class _EndVisitPageState extends State<EndVisitPage> {
-  int montoTotal = 55;
+  int montoTotal = 55; //razor
+  String total = "60"; //paypal
   Razorpay _razorpay;
   String userID = "";
 
@@ -49,9 +50,8 @@ class _EndVisitPageState extends State<EndVisitPage> {
       'name': 'Padi - Parking',
       'description': 'Pagar estacionamiento',
       'prefill': {
-        'contact':
-            '2227136470', //2227136470 Number del usuario recuperado de firebase
-        'email': user.email, //fern_si@gmail.com
+        'contact': '2227136470', // '',
+        'email': user.email,
       },
       'external': {'wallets': 'paytm'}
     };
@@ -62,18 +62,9 @@ class _EndVisitPageState extends State<EndVisitPage> {
     }
   }
 
-  void actStatus() async {
-    FirebaseFirestore.instance
-        .collection('visits')
-        .doc(userID)
-        .update({"activo": "off", "monto": montoTotal}).then((_) {});
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => CompleteTransaction()));
-  }
-
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     Fluttertoast.showToast(msg: "SUCCESS: " + response.paymentId);
-    actStatus();
+    actStatus(userID, montoTotal.toString());
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => CompleteTransaction()));
   }
@@ -323,7 +314,9 @@ class _EndVisitPageState extends State<EndVisitPage> {
                                 ),
                               ),
                               onTap: () {
-                                actStatus(); //Transacción de paypal
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        PaypalPayment(total, userID)));
                               },
                             ),
                             SizedBox(height: 24),
@@ -383,4 +376,11 @@ class Kisi {
             listaDoc[0].data()['nombreEstacionamiento'].toString(),
         uid: listaDoc[0].data()['uid'].toString());
   }
+}
+
+void actStatus(String userID, String total) async {
+  FirebaseFirestore.instance
+      .collection('visits')
+      .doc(userID)
+      .update({"activo": "off", "monto": total}).then((_) {});
 }

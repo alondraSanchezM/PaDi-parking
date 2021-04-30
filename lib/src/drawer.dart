@@ -8,6 +8,7 @@ import 'about.dart';
 import 'firstTime.dart';
 import 'payment.dart';
 import 'profile.dart';
+import 'welcome.dart';
 
 class MenuLateral extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -79,6 +80,17 @@ class MenuLateral extends StatelessWidget {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => PaymentPage()));
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Status',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 12, 36, 49), fontSize: 14),
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => WelcomePage()));
                   },
                 ),
                 Container(

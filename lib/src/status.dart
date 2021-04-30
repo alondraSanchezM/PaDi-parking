@@ -143,8 +143,10 @@ class _VisitPageState extends State<VisitPage> {
   Widget _submitButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => EndVisitPage()));
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => EndVisitPage()));
+        });
       },
       child: Container(
         width: 149,
@@ -168,7 +170,6 @@ class _VisitPageState extends State<VisitPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     User user1 = FirebaseAuth.instance.currentUser;
     final height = MediaQuery.of(context).size.height;
     return StreamBuilder(

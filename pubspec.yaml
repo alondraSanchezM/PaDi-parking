@@ -24,6 +24,8 @@ dependencies:
   provider: ^5.0.0
   razorpay_flutter: ^1.2.5
   fluttertoast: ^8.0.6
+  http_auth: ^1.0.0
+  webview_flutter: ^2.0.4
 
 
 dev_dependencies:
