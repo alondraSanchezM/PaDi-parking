@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:padi_parking/src/welcome.dart';
 import 'src/firstTime.dart';
 import 'dart:async';
 
@@ -30,10 +32,21 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => FirstTime()),
-      );
+      FirebaseAuth.instance.authStateChanges().listen((User user) {
+        if (user == null) {
+          print('User is currently signed out!');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => FirstTime()),
+          );
+        } else {
+          print('User is signed in!');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => WelcomePage()),
+          );
+        }
+      });
     });
   }
 

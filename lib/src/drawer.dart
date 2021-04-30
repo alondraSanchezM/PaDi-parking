@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import 'visits.dart';
 import 'about.dart';
@@ -11,7 +12,14 @@ import 'profile.dart';
 class MenuLateral extends StatelessWidget {
   Widget build(BuildContext context) {
     User user1 = FirebaseAuth.instance.currentUser;
-    
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    FacebookLogin _facebookLogin = FacebookLogin();
+
+    signOut() async {
+      await _auth.signOut();
+      await _facebookLogin.logOut();
+    }
+
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('users')
@@ -85,6 +93,7 @@ class MenuLateral extends StatelessWidget {
                               color: Color(0xFF757575),
                             )),
                         onTap: () {
+                          signOut();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -118,12 +127,9 @@ class MenuLateral extends StatelessWidget {
   }
 }
 
-
 class UsuarioData {
   final String name, email;
-  UsuarioData(
-      {this.name,
-      this.email});
+  UsuarioData({this.name, this.email});
 
   factory UsuarioData.fromDocument(QuerySnapshot documentsSa) {
     List<DocumentSnapshot> listaDoc = [];
@@ -132,9 +138,10 @@ class UsuarioData {
       listaDoc.add(doc);
     });
 
-
     return UsuarioData(
-      name: listaDoc[0].data()['name'].toString() +' '+ listaDoc[0].data()['lastName'].toString(),
+      name: listaDoc[0].data()['name'].toString() +
+          ' ' +
+          listaDoc[0].data()['lastName'].toString(),
       email: listaDoc[0].data()['email'].toString(),
     );
   }
