@@ -25,46 +25,6 @@ class _SignUpPageState extends State<SignUpPage> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FacebookLogin _facebookLogin = FacebookLogin();
 
-  Future _handleLogin() async {
-    FacebookLoginResult _result = await _facebookLogin.logIn(['email']);
-    switch (_result.status) {
-      case FacebookLoginStatus.cancelledByUser:
-        print("Cancelado por el usuario");
-        break;
-      case FacebookLoginStatus.error:
-        print("error");
-        break;
-      case FacebookLoginStatus.loggedIn:
-        FacebookAccessToken _accessToken = _result.accessToken;
-        AuthCredential _credential =
-            FacebookAuthProvider.credential(_accessToken.token);
-        var a = await _auth.signInWithCredential(_credential);
-
-        //var graphResponse = await http.get(
-        //  'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${_accessToken.token}');
-        //var profile = json.decode(graphResponse.body);
-        //print('response : ${profile}');
-
-        setState(() async {
-          User user = a.user;
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .set({
-            'uid': user.uid,
-            'email': user.email,
-            'name': "Alondra",
-            'lastName': "Sánchez"
-          });
-
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => WelcomePage()));
-        });
-        break;
-      default:
-    }
-  }
-
   Future registerUser() async {
     try {
       UserCredential userCredential =
@@ -99,6 +59,47 @@ class _SignUpPageState extends State<SignUpPage> {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future _facebookLoginN() async {
+    FacebookLoginResult _result = await _facebookLogin.logIn(['email']);
+    switch (_result.status) {
+      case FacebookLoginStatus.cancelledByUser:
+        print("Cancelado por el usuario");
+        break;
+      case FacebookLoginStatus.error:
+        print("error");
+        break;
+      case FacebookLoginStatus.loggedIn:
+        FacebookAccessToken _accessToken = _result.accessToken;
+        AuthCredential _credential =
+            FacebookAuthProvider.credential(_accessToken.token);
+        var a = await _auth.signInWithCredential(_credential);
+
+        var graphResponse = await http.post(Uri.parse(
+            "https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,&access_token=${_accessToken.token}"));
+
+        var profile = json.decode(graphResponse.body);
+        print("DATOS" + profile.toString());
+
+        setState(() async {
+          User user = a.user;
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .set({
+            'uid': user.uid,
+            'email': user.email,
+            'name': "Alondra",
+            'lastName': "Sánchez"
+          });
+
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => WelcomePage()));
+        });
+        break;
+      default:
     }
   }
 
@@ -310,7 +311,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _facebookButton() {
     return InkWell(
       onTap: () {
-        _handleLogin();
+        _facebookLoginN();
       },
       child: Container(
         height: 50,

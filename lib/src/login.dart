@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'singup.dart';
 import 'welcome.dart';
@@ -19,37 +22,7 @@ class _LoginPageState extends State<LoginPage> {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   FacebookLogin _facebookLogin = FacebookLogin();
-  User _user;
-
-  Future _handleLogin() async {
-    FacebookLoginResult _result = await _facebookLogin.logIn(['email']);
-    switch (_result.status) {
-      case FacebookLoginStatus.cancelledByUser:
-        print("Cancelado por el usuario");
-        break;
-      case FacebookLoginStatus.error:
-        print("error");
-        break;
-      case FacebookLoginStatus.loggedIn:
-        await _loginWithFacebook(_result);
-        _user.displayName;
-        break;
-      default:
-    }
-  }
-
-  Future _loginWithFacebook(FacebookLoginResult _result) async {
-    FacebookAccessToken _accessToken = _result.accessToken;
-    AuthCredential _credential =
-        FacebookAuthProvider.credential(_accessToken.token);
-    var a = await _auth.signInWithCredential(_credential);
-    setState(() {
-      _user = a.user;
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => WelcomePage()));
-    });
-  }
-
+  
   Future loginUser() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -64,6 +37,47 @@ class _LoginPageState extends State<LoginPage> {
       } else if (e.code == 'wrong-password') {
         print('Contraseña incorrecta');
       }
+    }
+  }
+
+   Future _facebookLoginN() async {
+    FacebookLoginResult _result = await _facebookLogin.logIn(['email']);
+    switch (_result.status) {
+      case FacebookLoginStatus.cancelledByUser:
+        print("Cancelado por el usuario");
+        break;
+      case FacebookLoginStatus.error:
+        print("error");
+        break;
+      case FacebookLoginStatus.loggedIn:
+        FacebookAccessToken _accessToken = _result.accessToken;
+        AuthCredential _credential =
+            FacebookAuthProvider.credential(_accessToken.token);
+        var a = await _auth.signInWithCredential(_credential);
+
+        var graphResponse = await http.post(Uri.parse(
+            "https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,&access_token=${_accessToken.token}"));
+
+        var profile = json.decode(graphResponse.body);
+        print("DATOS" + profile.toString());
+
+        setState(() async {
+          User user = a.user;
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .set({
+            'uid': user.uid,
+            'email': user.email,
+            'name': "Alondra",
+            'lastName': "Sánchez"
+          });
+
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => WelcomePage()));
+        });
+        break;
+      default:
     }
   }
 
@@ -166,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _facebookButton() {
     return InkWell(
       onTap: () {
-        _handleLogin();
+        _facebookLoginN();
       },
       child: Container(
         height: 50,
