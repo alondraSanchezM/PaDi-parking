@@ -35,16 +35,14 @@ class _SplashScreenState extends State<SplashScreen> {
       FirebaseAuth.instance.authStateChanges().listen((User user) {
         if (user == null) {
           print('User is currently signed out!');
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => FirstTime()),
-          );
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => FirstTime()),
+              (Route<dynamic> route) => false);
         } else {
           print('User is signed in!');
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => WelcomePage()),
-          );
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => WelcomePage()),
+              (Route<dynamic> route) => false);
         }
       });
     });

@@ -41,8 +41,9 @@ class _SignUpPageState extends State<SignUpPage> {
       });
 
       print(userCredential.user);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => WelcomePage()));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => WelcomePage()),
+          (Route<dynamic> route) => false);
       _email.clear();
       _pass.clear();
       _name.clear();
@@ -94,9 +95,9 @@ class _SignUpPageState extends State<SignUpPage> {
             'name': "Alondra",
             'lastName': "Sánchez"
           });
-
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => WelcomePage()));
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => WelcomePage()),
+              (Route<dynamic> route) => false);
         });
         break;
       default:
@@ -265,8 +266,9 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _loginAccountLabel() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LoginPage()),
+            (Route<dynamic> route) => false);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20),

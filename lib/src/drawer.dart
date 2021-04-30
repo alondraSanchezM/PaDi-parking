@@ -51,13 +51,26 @@ class MenuLateral extends StatelessWidget {
                 ),
                 ListTile(
                   title: Text(
+                    'Inicio',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 12, 36, 49), fontSize: 14),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => WelcomePage()),
+                        (Route<dynamic> route) => false);
+                  },
+                ),
+                ListTile(
+                  title: Text(
                     'Perfil',
                     style: TextStyle(
                         color: Color.fromARGB(255, 12, 36, 49), fontSize: 14),
                   ),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ProfilePage()));
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => ProfilePage()),
+                        (Route<dynamic> route) => false);
                   },
                 ),
                 ListTile(
@@ -67,8 +80,9 @@ class MenuLateral extends StatelessWidget {
                         color: Color.fromARGB(255, 12, 36, 49), fontSize: 14),
                   ),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => VisitsPage()));
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => VisitsPage()),
+                        (Route<dynamic> route) => false);
                   },
                 ),
                 ListTile(
@@ -78,19 +92,9 @@ class MenuLateral extends StatelessWidget {
                         color: Color.fromARGB(255, 12, 36, 49), fontSize: 14),
                   ),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => PaymentPage()));
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'Status',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 12, 36, 49), fontSize: 14),
-                  ),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => WelcomePage()));
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => PaymentPage()),
+                        (Route<dynamic> route) => false);
                   },
                 ),
                 Container(
@@ -106,10 +110,10 @@ class MenuLateral extends StatelessWidget {
                             )),
                         onTap: () {
                           signOut();
-                          Navigator.push(
-                              context,
+                          Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => FirstTime()));
+                                  builder: (context) => FirstTime()),
+                              (Route<dynamic> route) => false);
                         },
                       ),
                       InkWell(
@@ -119,10 +123,10 @@ class MenuLateral extends StatelessWidget {
                               color: Color(0xFF757575),
                             )),
                         onTap: () {
-                          Navigator.push(
-                              context,
+                          Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => AboutPage()));
+                                  builder: (context) => AboutPage()),
+                              (Route<dynamic> route) => false);
                         },
                       ),
                     ],

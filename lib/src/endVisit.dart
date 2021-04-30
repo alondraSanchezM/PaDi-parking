@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:padi_parking/src/payment.dart';
+import 'package:padi_parking/src/addCard.dart';
 import 'drawer.dart';
 import 'complete.dart';
 
@@ -65,8 +65,9 @@ class _EndVisitPageState extends State<EndVisitPage> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     Fluttertoast.showToast(msg: "SUCCESS: " + response.paymentId);
     actStatus(userID, montoTotal.toString());
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => CompleteTransaction()));
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => CompleteTransaction()),
+        (Route<dynamic> route) => false);
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -187,9 +188,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PaymentPage())); //AddCard()));
+            context, MaterialPageRoute(builder: (context) => AddCard()));
       },
       child: Text(
         'Añadir método de pago',
@@ -314,9 +313,11 @@ class _EndVisitPageState extends State<EndVisitPage> {
                                 ),
                               ),
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        PaypalPayment(total, userID)));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PaypalPayment(total, userID)));
                               },
                             ),
                             SizedBox(height: 24),

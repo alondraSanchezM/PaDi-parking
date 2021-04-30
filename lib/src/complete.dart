@@ -12,10 +12,9 @@ class _CompleteTransactionState extends State<CompleteTransaction> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 1), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => WelcomePage()),
-      );
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => WelcomePage()),
+          (Route<dynamic> route) => false);
     });
   }
 

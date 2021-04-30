@@ -144,11 +144,10 @@ class PaypalPaymentState extends State<PaypalPayment> {
                 Navigator.of(context).pop();
               }
               actStatus(widget.userID, widget.total);
-              Navigator.push(
-                  context,
+              Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                      builder: (context) => CompleteTransaction()));
-              //Navigator.of(context).pop();
+                      builder: (context) => CompleteTransaction()),
+                  (Route<dynamic> route) => false);
             }
             if (request.url.contains(cancelURL)) {
               Navigator.of(context).pop();

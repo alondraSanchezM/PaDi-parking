@@ -108,11 +108,11 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget _addMetodoDePago() {
     return InkWell(
       onTap: () {
-        Navigator.push(
+       Navigator.push(
             context, MaterialPageRoute(builder: (context) => AddCard()));
       },
       child: Text(
-        'Añadir tarjeta     ', //'Añadir método de pago   ',
+        'Añadir tarjeta     ',
         style: TextStyle(
             color: Color.fromARGB(255, 145, 196, 153),
             fontSize: 13,
@@ -124,10 +124,9 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget _submitButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => WelcomePage())); //VisitPage()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => WelcomePage()),
+            (Route<dynamic> route) => false);
       },
       child: Container(
         width: 149,

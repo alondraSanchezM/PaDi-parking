@@ -32,10 +32,9 @@ class _WelcomePageState extends State<WelcomePage> {
         addVisits();
 
         Future.delayed(Duration(seconds: 2), () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => VisitPage()),
-          );
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => VisitPage()),
+              (Route<dynamic> route) => false);
         });
       },
     );

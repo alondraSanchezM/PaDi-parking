@@ -241,8 +241,9 @@ class _AddCardState extends State<AddCard> {
             _cvvController.text,
             _pais.toString(),
             _codController.text);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => PaymentPage()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => PaymentPage()),
+            (Route<dynamic> route) => false);
       },
       child: Container(
         width: 149,

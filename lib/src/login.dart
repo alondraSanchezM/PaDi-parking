@@ -22,25 +22,28 @@ class _LoginPageState extends State<LoginPage> {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   FacebookLogin _facebookLogin = FacebookLogin();
-  
+
   Future loginUser() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email.text, password: _pass.text);
       print("Usuario logiado correctamente");
       print(userCredential.user);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => WelcomePage()));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => WelcomePage()),
+          (Route<dynamic> route) => false);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No se encontró usuario con ese email');
+        _showDialogs("No se encontró usuario con ese email");
       } else if (e.code == 'wrong-password') {
         print('Contraseña incorrecta');
+        _showDialogs("Contraseña incorrecta");
       }
     }
   }
 
-   Future _facebookLoginN() async {
+  Future _facebookLoginN() async {
     FacebookLoginResult _result = await _facebookLogin.logIn(['email']);
     switch (_result.status) {
       case FacebookLoginStatus.cancelledByUser:
@@ -72,13 +75,55 @@ class _LoginPageState extends State<LoginPage> {
             'name': "Alondra",
             'lastName': "Sánchez"
           });
-
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => WelcomePage()));
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => WelcomePage()),
+              (Route<dynamic> route) => false);
         });
         break;
       default:
     }
+  }
+Future<void> _showDialogs(String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'PaDi dice ...',
+            style: TextStyle(
+              color: Color(0xe6000000),
+              fontSize: 16,
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  message,
+                  style: TextStyle(color: Color(0x99000000)),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  color: Color(0xff0C2431),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _emailField() {
@@ -233,8 +278,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget _createAccountLabel() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignUpPage()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => SignUpPage()),
+            (Route<dynamic> route) => false);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20),

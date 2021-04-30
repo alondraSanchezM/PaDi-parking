@@ -120,8 +120,9 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _submitButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => WelcomePage()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => WelcomePage()),
+            (Route<dynamic> route) => false);
       },
       child: Container(
         width: 149,
