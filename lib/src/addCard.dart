@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'datacard.dart';
 import 'drawer.dart';
@@ -49,12 +50,6 @@ class _AddCardState extends State<AddCard> {
                 fillColor: Color(0xfff3f3f4),
                 filled: true),
           ),
-          /*TextField(
-              decoration: InputDecoration(
-                  hintText: hint,
-                  border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
-                  filled: true))*/
         ],
       ),
     );
@@ -122,13 +117,6 @@ class _AddCardState extends State<AddCard> {
                 fillColor: Color(0xfff3f3f4),
                 filled: true),
           ),
-          /*TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                  hintText: hint,
-                  border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
-                  filled: true)),*/
         ],
       ),
     );
@@ -243,19 +231,16 @@ class _AddCardState extends State<AddCard> {
   }
 
   Widget _submitButton() {
-    /*return Container(
-      width: 149,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        color: Color(0xff91C499),
-      ),*/
+    User user = FirebaseAuth.instance.currentUser;
     return InkWell(
       onTap: () async {
-        //convertirlo en función
-        await DataCard().createCard(_noCardController.text, _expController.text,
-            _cvvController.text, _pais.toString(), _codController.text);
+        await DataCard().createCard(
+            user.uid,
+            _noCardController.text,
+            _expController.text,
+            _cvvController.text,
+            _pais.toString(),
+            _codController.text);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => PaymentPage()));
       },

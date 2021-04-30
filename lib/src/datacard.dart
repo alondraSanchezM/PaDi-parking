@@ -5,10 +5,11 @@ class DataCard {
   final CollectionReference payment =
       FirebaseFirestore.instance.collection("payment");
 
-  Future<void> createCard(String noTarjeta, String expiracion, String cvv,
-      String pais, String codPostal) async {
+  Future<void> createCard(String user, String noTarjeta, String expiracion,
+      String cvv, String pais, String codPostal) async {
     var uid = getRandomString(20);
     return await payment.doc(uid).set({
+      'user': user,
       'numero_tarjeta': noTarjeta,
       'expiracion': expiracion,
       'cvv': cvv,
@@ -16,5 +17,9 @@ class DataCard {
       'codigo_postal': codPostal,
       'uid': uid,
     });
+  }
+
+  Future<void> deleteCard(String uid) async {
+    return await payment.doc(uid).delete();
   }
 }
