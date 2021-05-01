@@ -66,14 +66,16 @@ class _LoginPageState extends State<LoginPage> {
 
         setState(() async {
           User user = a.user;
+          var arr = user.displayName.split(' ');
+
           await FirebaseFirestore.instance
               .collection('users')
               .doc(user.uid)
               .set({
             'uid': user.uid,
             'email': user.email,
-            'name': "Alondra",
-            'lastName': "Sánchez"
+            'name': arr[0],
+            'lastName': arr[1]
           });
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => WelcomePage()),
