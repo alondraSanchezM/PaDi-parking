@@ -194,21 +194,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     Divider(
                       color: Color.fromARGB(255, 203, 202, 202),
                     ),
-                    SizedBox(height: 120),
-                    Container(
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: _google(),
-                      ),
-                    ),
-                    Container(
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: _facebook(),
-                      ),
-                    ),
-                    SizedBox(height: 70),
+                    SizedBox(height: height * .33),
                     _submitButton(),
+                    SizedBox(height: 36),
                   ],
                 ),
               ),
@@ -216,78 +204,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _google() {
-    return InkWell(
-        child: Row(
-      children: <Widget>[
-        Expanded(
-          child: Align(
-            alignment: Alignment.topRight,
-            child: _imageGoogle(),
-          ),
-        ),
-        _labelGoogle(),
-      ],
-    ));
-  }
-
-  Widget _labelGoogle() {
-    return Container(
-      margin: EdgeInsets.only(top: 10, right: 5),
-      alignment: Alignment.topRight,
-      child: Text(
-        ' Añadir cuenta de Google',
-        style: TextStyle(
-            color: Color.fromARGB(255, 145, 196, 153),
-            fontSize: 13,
-            fontWeight: FontWeight.w600),
-      ),
-    );
-  }
-
-  Widget _imageGoogle() {
-    return Container(
-      margin: EdgeInsets.only(left: 10),
-      child: Image.asset("assets/search.png"),
-    );
-  }
-
-  Widget _facebook() {
-    return InkWell(
-        child: Row(
-      children: <Widget>[
-        Expanded(
-          child: Align(
-            alignment: Alignment.topRight,
-            child: _imageFacebook(),
-          ),
-        ),
-        _labelFacebook(),
-      ],
-    ));
-  }
-
-  Widget _labelFacebook() {
-    return Container(
-      margin: EdgeInsets.only(top: 10, right: 5),
-      alignment: Alignment.topRight,
-      child: Text(
-        '  Añadir cuenta de Google',
-        style: TextStyle(
-            color: Color.fromARGB(255, 145, 196, 153),
-            fontSize: 13,
-            fontWeight: FontWeight.w600),
-      ),
-    );
-  }
-
-  Widget _imageFacebook() {
-    return Container(
-      margin: EdgeInsets.only(left: 10),
-      child: Image.asset("assets/facebook.png"),
     );
   }
 }

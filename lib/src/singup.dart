@@ -87,7 +87,7 @@ class _SignUpPageState extends State<SignUpPage> {
         setState(() async {
           User user = a.user;
           var arr = user.displayName.split(' ');
-
+          
           await FirebaseFirestore.instance
               .collection('users')
               .doc(user.uid)
@@ -97,11 +97,6 @@ class _SignUpPageState extends State<SignUpPage> {
             'name': arr[0],
             'lastName': arr[1]
           });
-
-          await FirebaseFirestore.instance
-              .collection('usersPhoto')
-              .doc(user.uid)
-              .set({'uid': user.uid, 'photoURL': user.photoURL});
 
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => WelcomePage()),

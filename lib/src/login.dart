@@ -266,7 +266,7 @@ class _LoginPageState extends State<LoginPage> {
                       topRight: Radius.circular(5)),
                 ),
                 alignment: Alignment.center,
-                child: Text('CREA UNA CUENTA CON FACEBOOK',
+                child: Text('INICIA SESIÓN CON FACEBOOK',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -360,14 +360,14 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () => Navigator.pop(context),
             ),
             TextButton(
-              child: Text(
-                'ENVIAR',
-                style: TextStyle(
-                  color: Color(0xff0C2431),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
+                child: Text(
+                  'ENVIAR',
+                  style: TextStyle(
+                    color: Color(0xff0C2431),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
                 onPressed: () {
                   _auth.sendPasswordResetEmail(email: _emailRec.text);
                   Navigator.pop(context);
