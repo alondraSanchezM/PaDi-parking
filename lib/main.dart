@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:padi_parking/src/status.dart';
 import 'package:padi_parking/src/welcome.dart';
 import 'src/firstTime.dart';
 import 'dart:async';
@@ -40,9 +42,24 @@ class _SplashScreenState extends State<SplashScreen> {
               (Route<dynamic> route) => false);
         } else {
           print('User is signed in!');
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => WelcomePage()),
-              (Route<dynamic> route) => false);
+          User user1 = FirebaseAuth.instance.currentUser;
+          FirebaseFirestore.instance
+              .collection('visits')
+              .where('activo', isEqualTo: 'on')
+              .where('email', isEqualTo: user1.email)
+              .limit(1)
+              .get()
+              .then((QuerySnapshot querySnapshot) {
+            if (querySnapshot.docs.length == 0) {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => WelcomePage()),
+                  (Route<dynamic> route) => false);
+            } else {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => VisitPage()),
+                  (Route<dynamic> route) => false);
+            }
+          });
         }
       });
     });

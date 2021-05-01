@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:padi_parking/src/status.dart';
 import 'singup.dart';
 import 'welcome.dart';
 
@@ -30,9 +31,24 @@ class _LoginPageState extends State<LoginPage> {
           .signInWithEmailAndPassword(email: _email.text, password: _pass.text);
       print("Usuario logiado correctamente");
       print(userCredential.user);
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => WelcomePage()),
-          (Route<dynamic> route) => false);
+      User user1 = FirebaseAuth.instance.currentUser;
+      FirebaseFirestore.instance
+          .collection('visits')
+          .where('activo', isEqualTo: 'on')
+          .where('email', isEqualTo: user1.email)
+          .limit(1)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        if (querySnapshot.docs.length == 0) {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => WelcomePage()),
+              (Route<dynamic> route) => false);
+        } else {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => VisitPage()),
+              (Route<dynamic> route) => false);
+        }
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No se encontró usuario con ese email');
@@ -78,9 +94,24 @@ class _LoginPageState extends State<LoginPage> {
             'name': arr[0],
             'lastName': arr[1]
           });
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => WelcomePage()),
-              (Route<dynamic> route) => false);
+          User user1 = FirebaseAuth.instance.currentUser;
+          FirebaseFirestore.instance
+              .collection('visits')
+              .where('activo', isEqualTo: 'on')
+              .where('email', isEqualTo: user1.email)
+              .limit(1)
+              .get()
+              .then((QuerySnapshot querySnapshot) {
+            if (querySnapshot.docs.length == 0) {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => WelcomePage()),
+                  (Route<dynamic> route) => false);
+            } else {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => VisitPage()),
+                  (Route<dynamic> route) => false);
+            }
+          });
         });
         break;
       default:
