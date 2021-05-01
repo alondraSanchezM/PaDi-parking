@@ -19,6 +19,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _email = TextEditingController();
   TextEditingController _pass = TextEditingController();
+  TextEditingController _emailRec = TextEditingController();
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   FacebookLogin _facebookLogin = FacebookLogin();
@@ -85,7 +86,8 @@ class _LoginPageState extends State<LoginPage> {
       default:
     }
   }
-Future<void> _showDialogs(String message) async {
+
+  Future<void> _showDialogs(String message) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -335,6 +337,7 @@ Future<void> _showDialogs(String message) async {
                   height: 12,
                 ),
                 TextField(
+                    controller: _emailRec,
                     obscureText: false,
                     decoration: InputDecoration(
                         hintText: 'tucorreo@email.com',
@@ -365,8 +368,10 @@ Future<void> _showDialogs(String message) async {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              onPressed: () => Navigator.pop(context),
-            ),
+                onPressed: () {
+                  _auth.sendPasswordResetEmail(email: _emailRec.text);
+                  Navigator.pop(context);
+                }),
           ],
         );
       },
