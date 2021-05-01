@@ -8,7 +8,6 @@ import 'visits.dart';
 import 'about.dart';
 import 'firstTime.dart';
 import 'payment.dart';
-import 'profile.dart';
 import 'welcome.dart';
 
 class MenuLateral extends StatelessWidget {
@@ -45,6 +44,7 @@ class MenuLateral extends StatelessWidget {
                     user.email,
                     style: TextStyle(color: Color(0x99000000), fontSize: 16),
                   ),
+                  
                   currentAccountPicture: Image.asset('assets/avatar.png'),
                   decoration: BoxDecoration(
                     color: Color(0x3DFFFFFF),
@@ -77,18 +77,6 @@ class MenuLateral extends StatelessWidget {
                             (Route<dynamic> route) => false);
                       }
                     });
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'Perfil',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 12, 36, 49), fontSize: 14),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => ProfilePage()),
-                        (Route<dynamic> route) => false);
                   },
                 ),
                 ListTile(
