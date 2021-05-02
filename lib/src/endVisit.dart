@@ -11,7 +11,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'paypalPayment.dart';
 
 class EndVisitPage extends StatefulWidget {
-  EndVisitPage({Key key, this.title}) : super(key: key);
+  final int montoTotal;
+  EndVisitPage(this.montoTotal, {Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -20,10 +21,11 @@ class EndVisitPage extends StatefulWidget {
 }
 
 class _EndVisitPageState extends State<EndVisitPage> {
-  int montoTotal = 55; //razor
-  String total = "60"; //paypal
+  int montoTotal;
   Razorpay _razorpay;
   String userID = "";
+  String entrada = "";
+  String salida = "";
 
   @override
   void initState() {
@@ -50,7 +52,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
       'name': 'Padi - Parking',
       'description': 'Pagar estacionamiento',
       'prefill': {
-        'contact': '2227136470', // '',
+        'contact': '2227136470',
         'email': user.email,
       },
       'external': {'wallets': 'paytm'}
@@ -63,7 +65,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    Fluttertoast.showToast(msg: "SUCCESS: " + response.paymentId);
+    //Fluttertoast.showToast(msg: "SUCCESS: " + response.paymentId);
     actStatus(userID, montoTotal.toString());
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => CompleteTransaction()),
@@ -71,8 +73,8 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    Fluttertoast.showToast(
-        msg: 'ERROR: ' + response.code.toString() + " _" + response.message);
+    //Fluttertoast.showToast(
+    //msg: 'ERROR: ' + response.code.toString() + " _" + response.message);
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -147,7 +149,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
   Widget _imageRazorpay() {
     return Container(
       margin: EdgeInsets.only(left: 10),
-      child: Image.asset("assets/master.png"),
+      child: Image.asset("assets/payrazor.png"),
     );
   }
 
@@ -202,6 +204,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
 
   @override
   Widget build(BuildContext context) {
+    montoTotal = widget.montoTotal;
     User user1 = FirebaseAuth.instance.currentUser; //user.email
     final height = MediaQuery.of(context).size.height;
     return StreamBuilder(
@@ -215,6 +218,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
           if (snapshot.hasData) {
             Kisi user = Kisi.fromDocument(snapshot.data);
             userID = user.uid;
+            entrada = user.hora;
             return Scaffold(
               appBar: AppBar(
                   title: Text('Termina tu visita'),
@@ -316,8 +320,10 @@ class _EndVisitPageState extends State<EndVisitPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            PaypalPayment(total, userID)));
+                                        builder: (context) => PaypalPayment(
+                                              montoTotal.toString(),
+                                              userID,
+                                            )));
                               },
                             ),
                             SizedBox(height: 24),
@@ -380,8 +386,8 @@ class Kisi {
 }
 
 void actStatus(String userID, String total) async {
-  FirebaseFirestore.instance
-      .collection('visits')
-      .doc(userID)
-      .update({"activo": "off", "monto": total}).then((_) {});
+  FirebaseFirestore.instance.collection('visits').doc(userID).update({
+    "activo": "off",
+    "monto": total,
+  }).then((_) {});
 }

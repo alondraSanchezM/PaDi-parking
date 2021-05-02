@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,19 +33,21 @@ class _PaymentPageState extends State<PaymentPage> {
     String asterisco = '***********';
     String cardFin = asterisco + card;
     return Column(children: <Widget>[
-      _master(cardFin, '${doc.data()['uid'].toString()}'),
+      _tarjeta(cardFin, '${doc.data()['uid'].toString()}'),
       SizedBox(height: 30),
     ]);
   }
 
-  Widget _master(String numero, String uidTarj) {
+  Widget _tarjeta(String numero, String uidTarj) {
+    Random random = new Random();
+    int opc = random.nextInt(2);
     return Container(
         child: Row(
       children: <Widget>[
         Expanded(
           child: Align(
             alignment: Alignment.topLeft,
-            child: _imageMaster(),
+            child: _imageMaster(opc),
           ),
         ),
         SizedBox(width: 5),
@@ -70,11 +73,18 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  Widget _imageMaster() {
-    return Container(
-      margin: EdgeInsets.only(left: 10),
-      child: Image.asset("assets/master.png"),
-    );
+  Widget _imageMaster(int opc) {
+    if (opc == 1) {
+      return Container(
+        margin: EdgeInsets.only(left: 10),
+        child: Image.asset("assets/master.png"),
+      );
+    } else {
+      return Container(
+        margin: EdgeInsets.only(left: 10),
+        child: Image.asset("assets/visa.png"),
+      );
+    }
   }
 
   Widget _labelMetodo1(String numero) {
@@ -82,7 +92,7 @@ class _PaymentPageState extends State<PaymentPage> {
       margin: EdgeInsets.only(top: 10, right: 30),
       alignment: Alignment.topLeft,
       child: Text(
-        numero, //'****2217',
+        numero,
         style: TextStyle(
           color: Colors.black87,
           fontSize: 20,
@@ -98,7 +108,6 @@ class _PaymentPageState extends State<PaymentPage> {
         ' _______________',
         style: TextStyle(
           color: Colors.black12,
-          //color: Color.fromARGB(255, 145, 196, 153),
           fontSize: 16,
         ),
       ),
@@ -108,13 +117,13 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget _addMetodoDePago() {
     return InkWell(
       onTap: () {
-       Navigator.push(
+        Navigator.push(
             context, MaterialPageRoute(builder: (context) => AddCard()));
       },
       child: Text(
         'Añadir tarjeta     ',
         style: TextStyle(
-            color: Color.fromARGB(255, 145, 196, 153),
+            color: Color(0xffCFD11A), //(255, 145, 196, 153),
             fontSize: 13,
             fontWeight: FontWeight.w600),
       ),
@@ -193,7 +202,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           children: <Widget>[
                             SizedBox(height: 24),
                             _datos(tarjList),
-                            SizedBox(height: 300),
+                            SizedBox(height: 220),
                             _divider(),
                             Container(
                               child: Align(

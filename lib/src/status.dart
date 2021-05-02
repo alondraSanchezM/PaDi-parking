@@ -140,12 +140,20 @@ class _VisitPageState extends State<VisitPage> {
     );
   }
 
-  Widget _submitButton() {
+  Widget _submitButton(String entrada) {
+    String salida = '${DateTime.now().hour}:${DateTime.now().minute}';
+    var hSalida = int.parse(salida.split(':')[0]);
+    int hEntrada = int.parse(entrada.split(':')[0]);
+    int horas = hSalida - hEntrada;
+    int montoTotal = 10 + horas * 15;
+
     return InkWell(
       onTap: () {
         Future.delayed(Duration(seconds: 2), () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => EndVisitPage()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EndVisitPage(montoTotal)));
         });
       },
       child: Container(
@@ -244,7 +252,7 @@ class _VisitPageState extends State<VisitPage> {
                           _labelCajon(user.noCajon),
                           _labelLineB2(),
                           SizedBox(height: 84),
-                          _submitButton(),
+                          _submitButton(user.hora),
                         ],
                       ),
                     ),

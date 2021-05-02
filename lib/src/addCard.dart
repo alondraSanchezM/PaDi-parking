@@ -14,6 +14,7 @@ class AddCard extends StatefulWidget {
 }
 
 class _AddCardState extends State<AddCard> {
+  final _keyForm = GlobalKey<FormState>();
   TextEditingController _noCardController = TextEditingController();
   TextEditingController _expController = TextEditingController();
   TextEditingController _cvvController = TextEditingController();
@@ -38,6 +39,7 @@ class _AddCardState extends State<AddCard> {
           ),
           TextFormField(
             controller: _noCardController,
+            keyboardType: TextInputType.number,
             validator: (value) {
               if (value.length == 16) {
                 return null;
@@ -73,8 +75,9 @@ class _AddCardState extends State<AddCard> {
           ),
           TextFormField(
             controller: _codController,
+            keyboardType: TextInputType.number,
             validator: (value) {
-              if (value.length == 16) {
+              if (value.length == 5) {
                 return null;
               } else
                 return 'No. tarjeta no válido';
@@ -105,6 +108,7 @@ class _AddCardState extends State<AddCard> {
           ),
           TextFormField(
             controller: _cvvController,
+            keyboardType: TextInputType.number,
             validator: (value) {
               if (value.length == 3) {
                 return null;
@@ -137,8 +141,9 @@ class _AddCardState extends State<AddCard> {
           ),
           TextFormField(
             controller: _expController,
+            keyboardType: TextInputType.number,
             validator: (value) {
-              if (value.length == 3) {
+              if (value.length != 4) {
                 return 'Expiración no válido';
               } else
                 return null;
@@ -156,7 +161,6 @@ class _AddCardState extends State<AddCard> {
 
   Widget _dropDownList() {
     String _chosenValue;
-
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
       child: Column(
@@ -183,12 +187,95 @@ class _AddCardState extends State<AddCard> {
                     style: TextStyle(fontSize: 16, color: Color(0x99000000)),
                     items: <String>[
                       'Alemania',
-                      'Francia',
-                      'Inglaterra',
-                      'Irlanda',
+                      'Argelia',
+                      'Argentina',
+                      'Australia',
+                      'Austria',
+                      'Bélgica',
+                      'Belice',
+                      'Bolivia',
+                      'Brasil',
+                      'Canada',
+                      'Chile',
+                      'China',
                       'Colombia',
+                      'Corea del Sur',
+                      'Costa Rica',
+                      'Croacia',
                       'Cuba',
+                      'Dinamarca',
+                      'Ecuador',
+                      'Egipto',
+                      'Eslovaquia',
+                      'Eslovenia',
+                      'España',
+                      'Estados Unidos',
+                      'Etiopía',
+                      'Islas Malvinas',
+                      'Filipinas',
+                      'Finlandia',
+                      'Francia',
+                      'Grecia',
+                      'Groenlandia',
+                      'Guatemala',
+                      'Haiti',
+                      'Honduras',
+                      'India',
+                      'Inglaterra',
+                      'Irán',
+                      'Iraq',
+                      'Irlanda',
+                      'Islandia',
+                      'Italia',
+                      'Jamaica',
+                      'Japón',
+                      'Kenia',
+                      'Líbano',
+                      'Liberia',
+                      'Lituania',
+                      'Luxemburgo',
+                      'Madagascar',
+                      'Malasia',
+                      'Maldivas',
+                      'México',
+                      'Mongolia',
+                      'Nepal',
+                      'Nicaragua',
+                      'Niger',
+                      'Nigeria',
+                      'Noruega',
+                      'Nueva Zelanda',
                       'Paises bajos',
+                      'Panamá',
+                      'Paraguay',
+                      'Perú',
+                      'Polonia',
+                      'Portugal',
+                      'Puerto Rico',
+                      'Qatar',
+                      'Rumanía',
+                      'Serbia',
+                      'Singapur',
+                      'Siria',
+                      'Sudáfrica',
+                      'Sudán',
+                      'Suecia',
+                      'Suiza',
+                      'Tanzania',
+                      'Tailandia',
+                      'Tíbet',
+                      'Togo',
+                      'Tonga',
+                      'Túnez',
+                      'Turquía',
+                      'Ucrania',
+                      'Uganda',
+                      'Uruguay',
+                      'Vanuatu',
+                      'Venezuela',
+                      'Vietnam',
+                      'Yemen',
+                      'Zambia'
                     ].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -234,16 +321,20 @@ class _AddCardState extends State<AddCard> {
     User user = FirebaseAuth.instance.currentUser;
     return InkWell(
       onTap: () async {
-        await DataCard().createCard(
-            user.uid,
-            _noCardController.text,
-            _expController.text,
-            _cvvController.text,
-            _pais.toString(),
-            _codController.text);
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => PaymentPage()),
-            (Route<dynamic> route) => false);
+        if (_keyForm.currentState.validate()) {
+          await DataCard().createCard(
+              user.uid,
+              _noCardController.text,
+              _expController.text,
+              _cvvController.text,
+              _pais.toString(),
+              _codController.text);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => PaymentPage()),
+              (Route<dynamic> route) => false);
+        } else {
+          print("ocurrio un error");
+        }
       },
       child: Container(
         width: 149,
@@ -283,32 +374,35 @@ class _AddCardState extends State<AddCard> {
       drawer: MenuLateral(),
       body: Container(
         height: height,
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: Image.asset(
-                "assets/low-shape.png",
-                fit: BoxFit.fitWidth,
-                alignment: Alignment.bottomLeft,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 24),
-                    _formWidget(),
-                    SizedBox(height: height * .10),
-                    _submitButton(),
-                    SizedBox(height: 24),
-                  ],
+        child: Form(
+          key: _keyForm,
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(
+                child: Image.asset(
+                  "assets/low-shape.png",
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.bottomLeft,
                 ),
               ),
-            ),
-          ],
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: 24),
+                      _formWidget(),
+                      SizedBox(height: height * .10),
+                      _submitButton(),
+                      SizedBox(height: 24),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -23,7 +23,6 @@ class PaypalPaymentState extends State<PaypalPayment> {
   String executeUrl;
   String accessToken;
   PaypalServices services = PaypalServices();
-  EndVisitPage cambio = EndVisitPage();
 
   Map<dynamic, dynamic> defaultCurrency = {
     "symbol": "MXN ",
@@ -34,11 +33,8 @@ class PaypalPaymentState extends State<PaypalPayment> {
 
   bool isEnableShipping = false;
   bool isEnableAddress = false;
-
   String returnURL = 'return.example.com';
   String cancelURL = 'cancel.example.com';
-
-  // = "20";
 
   @override
   void initState() {
@@ -65,9 +61,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
           duration: Duration(seconds: 10),
           action: SnackBarAction(
             label: 'Close',
-            onPressed: () {
-              // Some code to undo the change.
-            },
+            onPressed: () {},
           ),
         );
         // ignore: deprecated_member_use
