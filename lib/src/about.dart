@@ -35,7 +35,7 @@ class _AboutPageState extends State<AboutPage> {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
-        'Versión  1.12',
+        'Versión  1.02',
         style: TextStyle(
           color: Colors.black87,
           fontSize: 16,

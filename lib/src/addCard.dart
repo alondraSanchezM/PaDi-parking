@@ -80,7 +80,7 @@ class _AddCardState extends State<AddCard> {
               if (value.length == 5) {
                 return null;
               } else
-                return 'No. tarjeta no válido';
+                return 'Código postal no válido';
             },
             decoration: InputDecoration(
                 hintText: "123456",

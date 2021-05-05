@@ -123,7 +123,7 @@ class MenuLateral extends StatelessWidget {
                         },
                       ),
                       InkWell(
-                        child: Text('Acerca de     v1.12',
+                        child: Text('Acerca de     v1.02',
                             style: TextStyle(
                               fontSize: 12,
                               color: Color(0xFF757575),
