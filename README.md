@@ -24,14 +24,12 @@ comunicarse con el servicio, realizar el pago del estacionamiento, conocer el re
 * Restablecer contraseña por correo electrónico
 * Splash screen
 * Cerrar sesión
-***
 
 ## Construido con 🛠️
 * Flutter 2.2.0-10.1
 * Dart 2.13.0
 * Firebase Authentication
 * Firebase Cloud Firestore
-
 
 ## Dependencias 📦
 * cupertino_icons: ^1.0.2
@@ -48,14 +46,14 @@ comunicarse con el servicio, realizar el pago del estacionamiento, conocer el re
 * fluttertoast: ^8.0.6
 * http_auth: ^1.0.0
 * webview_flutter: ^2.0.4
-***
+
+## Interfaces de usuario :art:
+Puedes consultar el diseño de las interfaces [aquí](https://www.behance.net/gallery/119744541/PaDi).
 
 ## Autores ✒️
 - Alondra Sánchez - [alondraSanchezM](https://github.com/alondraSanchezM)
 - Deisy D. Gonzalez - [deisyDanielaG](https://github.com/deisyDanielaG)
 - Mark A. López - [SDWarkXD](https://github.com/SDWarkXD)
-***
 
 ## Licencia 📄
 Este proyecto está bajo la Licencia Apache-2.0 License - mira el archivo [LICENSE.md](https://github.com/alondraSanchezM/PaDi-parking/blob/main/LICENSE) para detalles
-***
