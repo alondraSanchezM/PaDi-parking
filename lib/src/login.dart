@@ -9,6 +9,7 @@ import 'singup.dart';
 import 'welcome.dart';
 
 class LoginPage extends StatefulWidget {
+  //Constructor de la clase como widget
   LoginPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -18,38 +19,49 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //Clase principal 
+
+  //Variables para el manejo de datos
   TextEditingController _email = TextEditingController();
   TextEditingController _pass = TextEditingController();
   TextEditingController _emailRec = TextEditingController();
 
+  //Variables para el control de cuentas
   FirebaseAuth _auth = FirebaseAuth.instance;
   FacebookLogin _facebookLogin = FacebookLogin();
 
+  //Método para iniciar sesión de usuario iniciando sesión con email y contraseña
   Future loginUser() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: _email.text, password: _pass.text);
+          .signInWithEmailAndPassword(email: _email.text, password: _pass.text); 
       print("Usuario logiado correctamente");
       print(userCredential.user);
       User user1 = FirebaseAuth.instance.currentUser;
-      FirebaseFirestore.instance
+
+      //Saber si el usuario ya se encontraba con una visita activa
+      FirebaseFirestore.instance    
           .collection('visits')
           .where('activo', isEqualTo: 'on')
           .where('email', isEqualTo: user1.email)
           .limit(1)
           .get()
           .then((QuerySnapshot querySnapshot) {
+
+        //Si no tenia una visita, muestra la pantalla de inicio
         if (querySnapshot.docs.length == 0) {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => WelcomePage()),
               (Route<dynamic> route) => false);
         } else {
+          //Si tenia una visita activa manda a la vista de esa visita
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => VisitPage()),
               (Route<dynamic> route) => false);
         }
       });
     } on FirebaseAuthException catch (e) {
+      //Errores en el inicio de sesión
       if (e.code == 'user-not-found') {
         print('No se encontró usuario con ese email');
         _showDialogs("No se encontró usuario con ese email");
@@ -60,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  //Método para iniciar sesión de usuario iniciando sesión con facebook
   Future _facebookLoginN() async {
     FacebookLoginResult _result = await _facebookLogin.logIn(['email']);
     switch (_result.status) {
@@ -70,11 +83,13 @@ class _LoginPageState extends State<LoginPage> {
         print("error");
         break;
       case FacebookLoginStatus.loggedIn:
+        //Si inicio correctamente se retornan las credenciales 
         FacebookAccessToken _accessToken = _result.accessToken;
         AuthCredential _credential =
             FacebookAuthProvider.credential(_accessToken.token);
         var a = await _auth.signInWithCredential(_credential);
 
+        //Se extrae la información de la cuenta de facebook
         var graphResponse = await http.post(Uri.parse(
             "https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,&access_token=${_accessToken.token}"));
 
@@ -85,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
           User user = a.user;
           var arr = user.displayName.split(' ');
 
+          //Se guardan los datos extraidos en la base de datos
           await FirebaseFirestore.instance
               .collection('users')
               .doc(user.uid)
@@ -94,6 +110,8 @@ class _LoginPageState extends State<LoginPage> {
             'name': arr[0],
             'lastName': arr[1]
           });
+
+          //Se busca por visita activa o no 
           User user1 = FirebaseAuth.instance.currentUser;
           FirebaseFirestore.instance
               .collection('visits')
@@ -118,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  //Método para dialogos modales
   Future<void> _showDialogs(String message) async {
     return showDialog<void>(
       context: context,
@@ -161,7 +180,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  //Widgets de la vista login  
+
   Widget _emailField() {
+    //Mostrar y llenar el campo de correo electrónico
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -191,6 +213,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _passwordField() {
+    //Mostrar y llenar el campo de contraseña
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -220,6 +243,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _submitButton() {
+    //Botón para iniciar sesión
     return InkWell(
       onTap: () {
         loginUser();
@@ -245,6 +269,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _labelOr() {
+    //Mostrar label de or
     return Container(
         margin: EdgeInsets.only(top: 15, bottom: 10),
         child: Column(
@@ -258,6 +283,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _facebookButton() {
+    //Botón para iniciar sesión con facebook
     return InkWell(
       onTap: () {
         _facebookLoginN();
@@ -311,6 +337,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _createAccountLabel() {
+    //Botón para crear una nueva cuenta
     return InkWell(
       onTap: () {
         Navigator.of(context).pushAndRemoveUntil(
@@ -344,6 +371,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  //Método para recuperar contraseña
   _dialogRecoverPassword() async {
     return showDialog<void>(
       context: context,
@@ -400,6 +428,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 onPressed: () {
+                  //LLamado al método sendPasswordResetEmail
                   _auth.sendPasswordResetEmail(email: _emailRec.text);
                   Navigator.pop(context);
                 }),
@@ -411,6 +440,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    //Widget contenedor principal
+    
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(

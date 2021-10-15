@@ -4,6 +4,7 @@ import 'login.dart';
 import 'singup.dart';
 
 class FirstTime extends StatefulWidget {
+  //Constructor de la clase como widget
   FirstTime({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -13,10 +14,13 @@ class FirstTime extends StatefulWidget {
 }
 
 class _FirstTimeState extends State<FirstTime> {
+  //Widgets de la vista FirstTime
+
+  //Botón para registrarse
   Widget _submitButton() { 
     return InkWell(
       onTap: () {
-        Navigator.push(
+        Navigator.push(   //Envio a la vista de registro
             context, MaterialPageRoute(builder: (context) => SignUpPage()));
       },
       child: Container(
@@ -34,10 +38,11 @@ class _FirstTimeState extends State<FirstTime> {
     );
   }
 
+  //Botón para iniciar sesión
   Widget _signUpButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(
+        Navigator.push(   //Envio a la vista de iniciar sesión
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       },
       child: Container(
@@ -57,6 +62,7 @@ class _FirstTimeState extends State<FirstTime> {
   }
 
   Widget _label() {
+    //Mostrar label mensaje de cuenta
     return Container(
         margin: EdgeInsets.only(top: 15, bottom: 10),
         child: Column(
@@ -70,6 +76,7 @@ class _FirstTimeState extends State<FirstTime> {
   }
   
   Widget _labelWelcome() {
+    //Mostrar label mensaje de bienvenida
     return Container(
         margin: EdgeInsets.only(top: 180, bottom: 20),
         child: Column(
@@ -86,6 +93,7 @@ class _FirstTimeState extends State<FirstTime> {
   }
 
   Widget _title() {
+    //Mostrar label slogan PaDi
     return Container(
         margin: EdgeInsets.only(top: 20, right: 27, bottom: 205),
         child: Column(
@@ -104,6 +112,7 @@ class _FirstTimeState extends State<FirstTime> {
 
   @override
   Widget build(BuildContext context) {
+    //Widget contenedor principal
     return Scaffold(
       body:SingleChildScrollView(
         child:Container(

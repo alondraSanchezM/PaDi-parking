@@ -2,15 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:padi_parking/src/addCard.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'paypalPayment.dart';
 import 'drawer.dart';
 import 'complete.dart';
 
-import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-import 'paypalPayment.dart';
-
 class EndVisitPage extends StatefulWidget {
+  //Constructor de la clase como widget
+
   final int montoTotal;
   EndVisitPage(this.montoTotal, {Key key, this.title}) : super(key: key);
 
@@ -21,6 +21,9 @@ class EndVisitPage extends StatefulWidget {
 }
 
 class _EndVisitPageState extends State<EndVisitPage> {
+  //Clase principal
+
+  //Declaración de variables
   int montoTotal;
   Razorpay _razorpay;
   String userID = "";
@@ -29,21 +32,22 @@ class _EndVisitPageState extends State<EndVisitPage> {
 
   @override
   void initState() {
-    // ignore: todo
-    // TODO: implement initState
     super.initState();
 
+    //Inicialización de Razorpay
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
+  //Cierre de razorpay
   void dispose() {
     super.dispose();
     _razorpay.clear();
   }
 
+  //Mpetodo para ingrezar los datos del checkout
   void openCheckout() async {
     User user = FirebaseAuth.instance.currentUser;
     var options = {
@@ -64,6 +68,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
     }
   }
 
+  //Mpetodo para transación relizada exitosamente
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     //Fluttertoast.showToast(msg: "SUCCESS: " + response.paymentId);
     actStatus(userID, montoTotal.toString());
@@ -72,16 +77,20 @@ class _EndVisitPageState extends State<EndVisitPage> {
         (Route<dynamic> route) => false);
   }
 
+  //Método para recibir error del pago 
   void _handlePaymentError(PaymentFailureResponse response) {
-    //Fluttertoast.showToast(
-    //msg: 'ERROR: ' + response.code.toString() + " _" + response.message);
+    Fluttertoast.showToast(msg: 'ERROR: ' + response.code.toString() + " _" + response.message);
   }
 
+  //Método para mandar a un externo
   void _handleExternalWallet(ExternalWalletResponse response) {
     Fluttertoast.showToast(msg: "EXTERNAL WALLET " + response.walletName);
   }
 
+  //Widgets de la vista status
+
   Widget _labelTotalAPagar() {
+    //Mostrar información total a pagar
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -96,6 +105,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   Widget _labelTotalAPagarCantidad() {
+  //Mostrar el monto total a pagar
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -107,6 +117,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   Widget _labelMetodos() {
+    //Mostrar label de métodos de pago
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -121,6 +132,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   Widget _labelLine() {
+    //Mostrar línea divisora
     return Container(
       child: Text(
         ' ________________________________________________ ',
@@ -134,6 +146,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   Widget _labelLineB2() {
+    //Otra línea divisora
     return Container(
       child: Text(
         ' __________________________________________ ',
@@ -147,6 +160,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   Widget _imageRazorpay() {
+    //Mostrar imagen de opción de pago Razorpay
     return Container(
       margin: EdgeInsets.only(left: 10),
       child: Image.asset("assets/payrazor.png"),
@@ -154,6 +168,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   Widget _imagePayPal() {
+    //Mostrar imagen de opción de pago Paypal
     return Container(
       margin: EdgeInsets.only(left: 10),
       child: Image.asset("assets/paypal.png"),
@@ -161,6 +176,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   Widget _labelRazorpay() {
+    //Mostrar label de opción de pago Razorpay
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -174,6 +190,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   Widget _labelMetodo3() {
+    //Mostrar label de opción de pago Razorpay
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
@@ -187,6 +204,7 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 
   Widget _addMetodoDePago() {
+    //Botón para añadir nuevo método de pago
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -204,6 +222,9 @@ class _EndVisitPageState extends State<EndVisitPage> {
 
   @override
   Widget build(BuildContext context) {
+    //Widget contenedor principal
+
+    //Manejo del estado de la visita
     montoTotal = widget.montoTotal;
     User user1 = FirebaseAuth.instance.currentUser; //user.email
     final height = MediaQuery.of(context).size.height;
@@ -350,8 +371,13 @@ class _EndVisitPageState extends State<EndVisitPage> {
   }
 }
 
+//Clase para el manejo de datos 
 class Kisi {
+
+  //Declaración de variables
   final String uid, hora, sector, email, nivel, noCajon, nombreEstacionamiento;
+  
+  //Constructor del método
   Kisi(
       {this.uid,
       this.hora,
@@ -362,6 +388,7 @@ class Kisi {
       this.nombreEstacionamiento});
 
   factory Kisi.fromDocument(QuerySnapshot documentsSa) {
+    //Manejo de documento
     List<DocumentSnapshot> listaDoc = [];
 
     documentsSa.docs.forEach((doc) {
@@ -374,6 +401,7 @@ class Kisi {
 
     print(listaDoc.length);
 
+    //Retorno de información
     return Kisi(
         sector: listaDoc[0].data()['sector'].toString(),
         hora: listaDoc[0].data()['hora'].toString(),
@@ -385,6 +413,7 @@ class Kisi {
   }
 }
 
+//Método para actualizar el estado de la visita
 void actStatus(String userID, String total) async {
   FirebaseFirestore.instance.collection('visits').doc(userID).update({
     "activo": "off",

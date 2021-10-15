@@ -5,8 +5,9 @@ import 'complete.dart';
 import 'endVisit.dart';
 import 'paypalServices.dart';
 
-// ignore: must_be_immutable
+
 class PaypalPayment extends StatefulWidget {
+  //Constructor de la clase como widget
   final String total;
   final String userID;
   PaypalPayment(this.total, this.userID);
@@ -18,12 +19,15 @@ class PaypalPayment extends StatefulWidget {
 }
 
 class PaypalPaymentState extends State<PaypalPayment> {
+
+  //Declaración de variables globales
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String checkoutUrl;
   String executeUrl;
   String accessToken;
   PaypalServices services = PaypalServices();
 
+  //Map para los datos monetarios
   Map<dynamic, dynamic> defaultCurrency = {
     "symbol": "MXN ",
     "decimalDigits": 2,
@@ -31,6 +35,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
     "currency": "MXN"
   };
 
+  //Variables auxiliares
   bool isEnableShipping = false;
   bool isEnableAddress = false;
   String returnURL = 'return.example.com';
@@ -41,6 +46,8 @@ class PaypalPaymentState extends State<PaypalPayment> {
     super.initState();
     String monto = "2";
     monto = widget.total;
+
+    //Tratamiento sincrono para el manejo del pago por Paypal
     Future.delayed(Duration.zero, () async {
       try {
         accessToken = await services.getAccessToken();
@@ -73,6 +80,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
   String itemName = 'Estacionamiento';
   int quantity = 1;
 
+  //Mapeo para el manejo del monto
   Map<String, dynamic> getOrderParams(String monto) {
     String itemPrice = monto;
     List items = [
@@ -84,6 +92,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
       }
     ];
 
+    //Este Map contiene la información general temporal
     Map<String, dynamic> temp = {
       "intent": "sale",
       "payer": {"payment_method": "paypal"},
@@ -109,10 +118,13 @@ class PaypalPaymentState extends State<PaypalPayment> {
   }
 
   @override
+  //Widget contenedor principal
   Widget build(BuildContext context) {
+    //Mensaje de salida del URL 
     print(checkoutUrl);
 
     if (checkoutUrl != null) {
+      //Flujo de acción si se obtiene un mensaje
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).backgroundColor,
@@ -138,6 +150,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
                 Navigator.of(context).pop();
               }
               actStatus(widget.userID, widget.total);
+              //Envio a vista de finalización de transacción
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                       builder: (context) => CompleteTransaction()),
@@ -151,6 +164,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
         ),
       );
     } else {
+      //Diseño de la vista
       return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
