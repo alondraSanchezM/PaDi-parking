@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'drawer.dart';
 
 class VisitsPage extends StatefulWidget {
+  //Constructor de la clase como widget
   VisitsPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -13,6 +14,8 @@ class VisitsPage extends StatefulWidget {
 }
 
 class _VisitsPageState extends State<VisitsPage> {
+  //Widgets de la vista VisitsPage
+  
   Widget _datos(DocVisit datosVisit) {
     return Container(
         margin: EdgeInsets.only(top: 20),
@@ -25,7 +28,7 @@ class _VisitsPageState extends State<VisitsPage> {
   }
 
   Widget _datosWidget(DocumentSnapshot doc) {
-
+    //Retorno del contenido de la visita
     return Column(
       children: <Widget>[
     Text.rich(TextSpan(
@@ -61,6 +64,7 @@ class _VisitsPageState extends State<VisitsPage> {
 
   @override
   Widget build(BuildContext context) {
+    //Widget contenedor principal
     final height = MediaQuery.of(context).size.height;
     User user1 = FirebaseAuth.instance.currentUser;
     return StreamBuilder(
@@ -118,6 +122,7 @@ class _VisitsPageState extends State<VisitsPage> {
   }
 }
 
+//Clase para la extraccion de la visita activa del usuario
 class DocVisit {
   final List<DocumentSnapshot> listaDoc;
   DocVisit({

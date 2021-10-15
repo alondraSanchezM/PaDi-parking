@@ -4,16 +4,16 @@ import 'dart:convert' as convert;
 import 'package:http_auth/http_auth.dart';
 
 class PaypalServices {
-  String domain = "https://api.sandbox.paypal.com"; // for sandbox mode
+  String domain = "https://api.sandbox.paypal.com"; // dominio de la api para utilizar paypal
 //  String domain = "https://api.paypal.com"; // for production mode
 
-  // change clientId and secret with your own, provided by paypal
+  //Cambio del  clientId  y la clave secreta nuestra que paypal provee
   String clientId =
       'ASjeoGRSHndLx_vllESArfWlI-ujfB2fS4KxNtMBLc_4QUKqAWOxs5WLCiHRkmnFc5dInMtWbG3zQlxL';
   String secret =
       'ECMrp5Xf7XggwSI9gNXDrG01A1D2WaFOdhdR5LUutsKIlZxColeoHTifCV-VBpBVpylq3zeVWhlaJDdR';
-
-  // for getting the access token from Paypal
+  
+  //Para obtener el token de acceso de paypal
   Future<String> getAccessToken() async {
     try {
       var client = BasicAuthClient(clientId, secret);
@@ -30,7 +30,7 @@ class PaypalServices {
     }
   }
 
-  // for creating the payment request with Paypal
+  //Para crear la peticion del pago con paypal
   Future<Map<String, String>> createPaypalPayment(
       transactions, accessToken) async {
     try {
@@ -68,8 +68,8 @@ class PaypalServices {
       rethrow;
     }
   }
-
-  // for executing the payment transaction
+  
+  // Para ejecutar la transaccion del pago
   Future<String> executePayment(url, payerId, accessToken) async {
     try {
       var response = await http.post(url,

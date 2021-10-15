@@ -8,6 +8,7 @@ import 'package:padi_parking/src/welcome.dart';
 import 'login.dart';
 
 class SignUpPage extends StatefulWidget {
+  //Constructor de la clase como widget
   SignUpPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -17,6 +18,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  //Widgets de la vista SignUpPage
   TextEditingController _email = TextEditingController();
   TextEditingController _pass = TextEditingController();
   TextEditingController _name = TextEditingController();
@@ -25,6 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FacebookLogin _facebookLogin = FacebookLogin();
 
+  //Funcion asincrona para registrar a un usuario
   Future registerUser() async {
     try {
       UserCredential userCredential =
@@ -63,6 +66,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
+  //Funcion asincrona para registrar con facebook
   Future _facebookLoginN() async {
     FacebookLoginResult _result = await _facebookLogin.logIn(['email']);
     switch (_result.status) {
@@ -107,6 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
+  //recuadro para mostrar mensajes de respuesta asincrono
   Future<void> _showDialogs(String message) async {
     return showDialog<void>(
       context: context,
@@ -149,7 +154,7 @@ class _SignUpPageState extends State<SignUpPage> {
       },
     );
   }
-
+  // Input para la entrada del correo electronico
   Widget _emailField() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -179,6 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  // Input para la entrada del nombre del usuario
   Widget _nameField() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -208,6 +214,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  // Input para la entrada del apellido del usuario
   Widget _lastNameField() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -237,6 +244,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  // Input para la entrada de la contraseña
   Widget _passwordField() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
@@ -266,6 +274,8 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+
+  // Label para retornar al inicio de sesion
   Widget _loginAccountLabel() {
     return InkWell(
       onTap: () {
@@ -300,6 +310,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  // Label para mostrar el registro por facebook o de manera manual
   Widget _labelOr() {
     return Container(
         margin: EdgeInsets.only(top: 15, bottom: 10),
@@ -313,6 +324,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ));
   }
 
+  //Boton para el registro a traves de facebook
   Widget _facebookButton() {
     return InkWell(
       onTap: () {
@@ -366,6 +378,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  //Boton para el registro de forma manual
   Widget _submitButton() {
     return InkWell(
       onTap: () {
@@ -393,6 +406,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    //Widget contenedor principal
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(

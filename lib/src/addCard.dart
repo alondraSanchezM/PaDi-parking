@@ -5,6 +5,7 @@ import 'drawer.dart';
 import 'payment.dart';
 
 class AddCard extends StatefulWidget {
+    //Constructor de la clase como widget
   AddCard({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -14,13 +15,14 @@ class AddCard extends StatefulWidget {
 }
 
 class _AddCardState extends State<AddCard> {
+  //Widgets de la vista AddCard
   final _keyForm = GlobalKey<FormState>();
   TextEditingController _noCardController = TextEditingController();
   TextEditingController _expController = TextEditingController();
   TextEditingController _cvvController = TextEditingController();
   TextEditingController _codController = TextEditingController();
   String _pais = 'México';
-
+  //Input para la entrada del numero de tarjeta
   Widget _entryFieldCard() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
@@ -57,6 +59,7 @@ class _AddCardState extends State<AddCard> {
     );
   }
 
+  //Input para la entrada del codigo postal
   Widget _entryFieldCod() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
@@ -93,6 +96,7 @@ class _AddCardState extends State<AddCard> {
     );
   }
 
+  //Input para la entrada del CVV
   Widget _blockFieldCVV() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
@@ -126,6 +130,7 @@ class _AddCardState extends State<AddCard> {
     );
   }
 
+  //Input para la entrada de la fecha de expiracion de la tarjeta
   Widget _blockFieldExp() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
@@ -159,6 +164,7 @@ class _AddCardState extends State<AddCard> {
     );
   }
 
+  //DropList para la eleccion del pais
   Widget _dropDownList() {
     String _chosenValue;
     return Container(
@@ -185,6 +191,7 @@ class _AddCardState extends State<AddCard> {
                     isExpanded: true,
                     elevation: 5,
                     style: TextStyle(fontSize: 16, color: Color(0x99000000)),
+                    //Array de Paises
                     items: <String>[
                       'Alemania',
                       'Argelia',
@@ -297,6 +304,7 @@ class _AddCardState extends State<AddCard> {
     );
   }
 
+  //Widgets para los inputs de la tarjeta
   Widget _formWidget() {
     return Column(
       children: <Widget>[
@@ -317,6 +325,7 @@ class _AddCardState extends State<AddCard> {
     );
   }
 
+// Boton para guardar la tarjeta
   Widget _submitButton() {
     User user = FirebaseAuth.instance.currentUser;
     return InkWell(
@@ -358,6 +367,8 @@ class _AddCardState extends State<AddCard> {
 
   @override
   Widget build(BuildContext context) {
+    
+    // Contenedor Principal del widget
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: PreferredSize(

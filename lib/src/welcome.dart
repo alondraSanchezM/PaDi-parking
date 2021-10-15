@@ -8,6 +8,7 @@ import 'package:qr/qr.dart';
 import 'dart:math';
 
 class WelcomePage extends StatefulWidget {
+  //Constructor de la clase como widget
   WelcomePage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -17,6 +18,7 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+  //widget para crear los codigos QR del usuario 
   Widget _qrScan() {
     User user = FirebaseAuth.instance.currentUser;
 
@@ -40,6 +42,7 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
+  //funcion asincrona para crear una visita
   void addVisits() async {
     String email;
     var idEstacionado;
@@ -123,6 +126,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //Widget contenedor principal
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
@@ -162,6 +166,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 }
 
+//generacion de strings randoms
 String getRandomString(int len) {
   var r = Random();
   const _chars =

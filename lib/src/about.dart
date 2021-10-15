@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'drawer.dart';
 
 class AboutPage extends StatefulWidget {
+  //Constructor de la clase como widget
   AboutPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -11,6 +12,7 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
+  //Widgets de la vista AboutPage
   Widget _labelTittle() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -23,7 +25,7 @@ class _AboutPageState extends State<AboutPage> {
       ),
     );
   }
-
+  // Label para mostrar el logo de PaDi
   Widget _labelLogo() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -31,6 +33,7 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
+  // Label para mostrar la version de la App
   Widget _labelVersion() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -44,6 +47,7 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
+  // Label de separacion
   Widget _labelLine() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -58,6 +62,7 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
+  // Label de titulo Diseñado por
   Widget _labelDisenado() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -71,6 +76,7 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
+// Label para mostrar quien diseño la App
   Widget _labelDisenadoP() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -82,6 +88,7 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
+  // Label de titulo Programado por
   Widget _labelProgramado() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -95,6 +102,7 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
+// Label para mostrar quien programo la App
   Widget _labelProgramadoP() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -107,6 +115,7 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
+// Label para mostrar derechos de la App
   Widget _labelDerechos() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -123,6 +132,7 @@ class _AboutPageState extends State<AboutPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Contenedor Principal del widget
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(

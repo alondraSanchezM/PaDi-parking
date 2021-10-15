@@ -7,6 +7,7 @@ import 'package:padi_parking/src/welcome.dart';
 import 'src/firstTime.dart';
 import 'dart:async';
 
+//Clase principal asincrona
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -14,6 +15,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  //Widgets de la vista de inicio con un SplashScreen
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,15 +25,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class SplashScreen extends StatefulWidget {
+  //Constructor de la clase como widget
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+    //Widgets de la vista SplashScreen
   Color _color = Color.fromARGB(255, 12, 36, 49);
 
   @override
-  void initState() {
+  void initState() {    
+    //Widget contenedor principal
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
       FirebaseAuth.instance.authStateChanges().listen((User user) {
@@ -67,6 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //Widget de pantalla de carga
     return Scaffold(
       backgroundColor: _color,
       body: Center(

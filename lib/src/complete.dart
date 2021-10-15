@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'welcome.dart';
 
 class CompleteTransaction extends StatefulWidget {
+    //Constructor de la clase como widget
   _CompleteTransactionState createState() => _CompleteTransactionState();
 }
 
 class _CompleteTransactionState extends State<CompleteTransaction> {
+  //Widgets de la vista de transaccion completa
   Color _color = Color.fromARGB(255, 207, 209, 26);
 
   @override
@@ -20,6 +22,7 @@ class _CompleteTransactionState extends State<CompleteTransaction> {
 
   @override
   Widget build(BuildContext context) {
+    // Contenedor Principal del widget
     return Scaffold(
       backgroundColor: _color,
       body: Center(

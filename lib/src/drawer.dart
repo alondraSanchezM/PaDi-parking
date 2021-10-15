@@ -11,16 +11,18 @@ import 'payment.dart';
 import 'welcome.dart';
 
 class MenuLateral extends StatelessWidget {
+  //Constructor de la clase como widget
   Widget build(BuildContext context) {
     User user1 = FirebaseAuth.instance.currentUser;
     FirebaseAuth _auth = FirebaseAuth.instance;
     FacebookLogin _facebookLogin = FacebookLogin();
 
+    //Inicio de sesion asincrono
     signOut() async {
       await _auth.signOut();
       await _facebookLogin.logOut();
     }
-
+    //Retorno de la info del usuario
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('users')
@@ -30,7 +32,7 @@ class MenuLateral extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           UsuarioData user = UsuarioData.fromDocument(snapshot.data);
-
+          //Retorno del menu lateral
           return Drawer(
             child: ListView(
               //padding: EdgeInsets.zero,
@@ -149,6 +151,7 @@ class MenuLateral extends StatelessWidget {
   }
 }
 
+//Clase para encontrar la info del usuario
 class UsuarioData {
   final String name, email;
   UsuarioData({this.name, this.email});
@@ -160,6 +163,7 @@ class UsuarioData {
       listaDoc.add(doc);
     });
 
+    // Retorno de la info del usuario deseado
     return UsuarioData(
       name: listaDoc[0].data()['name'].toString() +
           ' ' +
