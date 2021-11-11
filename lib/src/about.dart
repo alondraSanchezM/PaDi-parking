@@ -107,7 +107,7 @@ class _AboutPageState extends State<AboutPage> {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
-        'Deisy D. Gonzalez \n Mark A. López \n Jesús Pérez \n Agner A. Plasencia \n Brayan J. Rodriguez \n Alondra Sánchez',
+        'Deisy D. Gonzalez \n Mark A. López \n Alondra Sánchez',
         textAlign: TextAlign.center,
         style: TextStyle(
             color: Colors.black87, fontSize: 20, fontWeight: FontWeight.bold),
